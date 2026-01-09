@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -10,7 +9,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: rgb(72, 79, 53);
+  --primary: oklch(0.355 0.048 129.23); /* rgb(72, 79, 53) converted to oklch */
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -152,22 +151,29 @@
   }
 }
 
-/* Add vanilla CSS scanning animation */
+/* Optimized scanning animation with GPU acceleration */
 @keyframes scan {
   0% {
-    top: 0;
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    top: 100%;
+    transform: translate3d(0, 100%, 0);
   }
 }
 
 .scan-line {
   position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
   height: 2px;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
   animation: scan 2.5s ease-in-out infinite;
+  will-change: transform;
+  /* Respect user's motion preferences for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    opacity: 0.5;
+  }
 }
