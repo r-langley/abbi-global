@@ -268,10 +268,10 @@ export default function HomePage() {
                     />
                   </div>
                   <div className="p-6 flex flex-col px-4 py-4 gap-0">
-                    <h3 className="text-xl md:text-2xl font-normal text-foreground mb-2 tracking-tight">
+                    <h3 className="font-normal text-foreground mb-2 tracking-tight text-xl">
                       {product.title}
                     </h3>
-                    <p className="mb-4 text-muted-foreground">{product.price}</p>
+                    <p className="mb-4 text-muted-foreground text-base">{product.price}</p>
                     <Button
                       asChild
                       variant="link"
