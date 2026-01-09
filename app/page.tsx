@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -45,7 +46,14 @@ export default function HomePage() {
             {/* Left: Hamburger + Desktop Nav */}
             <div className="flex items-center gap-2">
               <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-                
+                <SheetTrigger asChild className="md:hidden">
+                  <Button variant="ghost" size="icon" className="rounded-lg">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <span className="sr-only">Open menu</span>
+                  </Button>
+                </SheetTrigger>
                 <SheetContent side="left" className="w-full sm:w-80">
                   <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                   <SheetDescription className="sr-only">Browse site navigation</SheetDescription>
@@ -157,10 +165,13 @@ export default function HomePage() {
       <main className="pt-0">
         {/* Hero Section */}
         <section className="relative min-h-[600px] md:min-h-[700px] w-full bg-muted overflow-hidden">
-          <img
+          <Image
             src="/images/image.png"
             alt="Diverse group of women representing ABBI community"
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            priority
+            className="object-cover"
+            sizes="100vw"
           />
           <div className="relative h-full min-h-[600px] md:min-h-[700px] flex items-center justify-end px-6 md:px-10 py-10">
             <div className="max-w-xl flex flex-col items-end text-right gap-4">
@@ -212,10 +223,12 @@ export default function HomePage() {
               </div>
 
               <div className="relative aspect-[4/5] rounded-2xl overflow-hidden">
-                <img
+                <Image
                   src="/woman-face-skin-analysis-ai-scan.jpg"
                   alt="Personalized skin analysis result"
-                  className="w-full h-full object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {/* Scanning Animation Overlay */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -246,10 +259,12 @@ export default function HomePage() {
                     <Badge className="absolute top-4 left-4 z-10 text-background border-0 rounded-xs bg-primary">
                       {product.badge}
                     </Badge>
-                    <img
+                    <Image
                       src="/minimalist-cosmetic-pump-bottle-cream.jpg"
                       alt={product.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
                   <div className="p-6 flex flex-col px-4 py-4 gap-0">
@@ -279,10 +294,12 @@ export default function HomePage() {
             </h2>
 
             <div className="relative w-32 h-32 md:w-48 md:h-48 mx-auto mb-16">
-              <img
+              <Image
                 src="/abstract-botanical-watercolor-yellow-illustration.jpg"
                 alt="Abstract botanical watercolor illustration"
-                className="w-full h-full object-contain"
+                fill
+                className="object-contain"
+                sizes="(max-width: 768px) 128px, 192px"
               />
             </div>
 
