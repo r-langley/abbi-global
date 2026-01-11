@@ -6,25 +6,12 @@ import "./globals.css"
 
 import { Geist, Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Vollkorn as V0_Font_Vollkorn } from 'next/font/google'
 
+// Initialize fonts
+const _geist = V0_Font_Geist({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
+const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
+const _vollkorn = V0_Font_Vollkorn({ subsets: ['latin'], weight: ["400","500","600","700","800","900"] })
+
 // Initialize fonts - optimized to load only necessary weights
-const _geist = V0_Font_Geist({
-  subsets: ['latin'],
-  weight: ["400","500","600","700"],
-  display: 'swap',
-  variable: '--font-sans'
-})
-const _geistMono = V0_Font_Geist_Mono({
-  subsets: ['latin'],
-  weight: ["400","500","600"],
-  display: 'swap',
-  variable: '--font-mono'
-})
-const _vollkorn = V0_Font_Vollkorn({
-  subsets: ['latin'],
-  weight: ["400","600","700"],
-  display: 'swap',
-  variable: '--font-serif'
-})
 
 export const metadata: Metadata = {
   title: "ABBI - Personalized Skincare",
