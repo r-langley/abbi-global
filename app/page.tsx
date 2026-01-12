@@ -13,19 +13,19 @@ const categoryCards = [
     title: "Custom Creams",
     badge: "Recommended",
     price: "Starting at $89",
-    href: "/shop/custom-creams",
+    href: "/shop/in-lab-creams",
   },
   {
     title: "Mix-at-Home Creams",
     badge: "Best Seller",
-    price: "Starting at $49",
+    price: "Starting at $24.90",
     href: "/shop/mix-at-home",
   },
   {
     title: "Simple Solutions",
     badge: "New",
-    price: "Complete kits starting at $119",
-    href: "/shop/simple-solutions",
+    price: "Complete kits starting at $59.95",
+    href: "/shop/simple-solution",
   },
 ]
 
@@ -249,17 +249,17 @@ export default function HomePage() {
               <h4 className="font-semibold mb-4">Shop</h4>
               <ul className="space-y-2 text-sm text-background/70">
                 <li>
-                  <Link href="/shop?category=creams" className="hover:text-background transition-colors">
+                  <Link href="/shop/in-lab-creams" className="hover:text-background transition-colors">
                     Custom Creams
                   </Link>
                 </li>
                 <li>
-                  <Link href="/shop?category=mix-at-home" className="hover:text-background transition-colors">
+                  <Link href="/shop/mix-at-home" className="hover:text-background transition-colors">
                     Mix-at-Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/shop?category=simple-solutions" className="hover:text-background transition-colors">
+                  <Link href="/shop/simple-solution" className="hover:text-background transition-colors">
                     Simple Solutions
                   </Link>
                 </li>

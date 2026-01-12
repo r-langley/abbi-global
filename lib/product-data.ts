@@ -7,7 +7,12 @@ export interface Product {
   traits: string[]
   description: string
   recommended?: boolean
+  /** Product image path. When individual images are ready, update each product's image field. */
+  image?: string
 }
+
+/** Default placeholder image used when product.image is not specified */
+export const DEFAULT_PRODUCT_IMAGE = "/minimalist-cosmetic-pump-bottle-cream.jpg"
 
 export const productData: Product[] = [
   // In-Lab Creams
