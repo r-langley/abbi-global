@@ -20,6 +20,10 @@ interface GlobalNavProps {
   cartItems?: any[]
   onRemoveFromCart?: (itemId: number) => void
   onUpdateQuantity?: (itemId: number, quantity: number) => void
+  onTogglePurchaseType?: (itemId: number) => void
+  onSaveCart?: () => void
+  savedCarts?: any[]
+  onLoadCart?: (cartId: string) => void
 }
 
 export function GlobalNav({
@@ -28,10 +32,15 @@ export function GlobalNav({
   cartItems = [],
   onRemoveFromCart,
   onUpdateQuantity,
+  onTogglePurchaseType,
+  onSaveCart,
+  savedCarts = [],
+  onLoadCart,
 }: GlobalNavProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [megaMenuOpen, setMegaMenuOpen] = useState(false)
   const [bagMenuOpen, setBagMenuOpen] = useState(false)
+  const [customerMenuOpen, setCustomerMenuOpen] = useState(false)
   const [internalCartOpen, setInternalCartOpen] = useState(false)
   const [shopForOtherOpen, setShopForOtherOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
@@ -39,6 +48,7 @@ export function GlobalNav({
   const [showNewCustomerForm, setShowNewCustomerForm] = useState(false)
   const [newCustomer, setNewCustomer] = useState({ name: "", email: "", phone: "" })
   const [shoppingForCustomer, setShoppingForCustomer] = useState<Customer | null>(null)
+  const [savedCartsOpen, setSavedCartsOpen] = useState(false)
 
   useEffect(() => {
     const savedCustomer = sessionStorage.getItem("shoppingForCustomer")
@@ -234,10 +244,17 @@ export function GlobalNav({
             <div className="flex items-center gap-1">
               <div
                 className="relative"
-                onMouseEnter={() =>
-                  isLoggedIn && isAmbassador && cartItemCount === 0 && !shoppingForCustomer && setBagMenuOpen(true)
-                }
-                onMouseLeave={() => setBagMenuOpen(false)}
+                onMouseEnter={() => {
+                  if (shoppingForCustomer) {
+                    setCustomerMenuOpen(true)
+                  } else if (isLoggedIn && isAmbassador && cartItemCount === 0) {
+                    setBagMenuOpen(true)
+                  }
+                }}
+                onMouseLeave={() => {
+                  setCustomerMenuOpen(false)
+                  setBagMenuOpen(false)
+                }}
               >
                 <Button variant="ghost" className="rounded-lg relative gap-2 px-3" onClick={handleBagClick}>
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -257,6 +274,32 @@ export function GlobalNav({
                     </span>
                   )}
                 </Button>
+
+                {customerMenuOpen && shoppingForCustomer && (
+                  <div className="absolute top-full right-0 pt-2">
+                    <div className="bg-background border border-border rounded-lg shadow-lg p-3 w-48 space-y-2">
+                      <button
+                        onClick={() => {
+                          setShopForOtherOpen(true)
+                          setCustomerMenuOpen(false)
+                        }}
+                        className="block w-full text-left text-sm font-mono hover:text-primary transition-colors px-2 py-1"
+                      >
+                        Change Customer
+                      </button>
+                      <button
+                        onClick={() => {
+                          handleClearCustomer()
+                          setCustomerMenuOpen(false)
+                        }}
+                        className="block w-full text-left text-sm font-mono hover:text-primary transition-colors px-2 py-1"
+                      >
+                        Shop for Myself
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {bagMenuOpen && isLoggedIn && isAmbassador && cartItemCount === 0 && !shoppingForCustomer && (
                   <div className="absolute top-full right-0 pt-2">
                     <div className="bg-background border border-border rounded-lg shadow-lg p-4 w-48">
@@ -439,23 +482,6 @@ export function GlobalNav({
             <SheetDescription className="text-sm text-muted-foreground font-mono">
               {cartItemCount} {cartItemCount === 1 ? "item" : "items"}
             </SheetDescription>
-            {shoppingForCustomer && (
-              <div className="mt-3 flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-xs font-mono bg-transparent"
-                  onClick={() => {
-                    setShopForOtherOpen(true)
-                  }}
-                >
-                  Change Customer
-                </Button>
-                <Button variant="ghost" size="sm" className="text-xs font-mono" onClick={handleClearCustomer}>
-                  Shop for Myself
-                </Button>
-              </div>
-            )}
           </div>
 
           <div className="flex-1 overflow-y-auto px-6 mt-6">
@@ -472,7 +498,16 @@ export function GlobalNav({
                   </div>
                   <div className="flex-1 space-y-2">
                     <div className="flex justify-between">
-                      <p className="text-sm font-medium text-foreground">{item.name}</p>
+                      <div>
+                        <p className="text-sm font-medium text-foreground">{item.name}</p>
+                        <Badge
+                          variant={item.purchaseType === "subscription" ? "default" : "outline"}
+                          className="text-xs mt-1 cursor-pointer"
+                          onClick={() => onTogglePurchaseType?.(item.id)}
+                        >
+                          {item.purchaseType === "subscription" ? "ABBI Autoship (-5%)" : "One-Time"}
+                        </Badge>
+                      </div>
                       <Button
                         variant="ghost"
                         size="icon"
@@ -520,6 +555,58 @@ export function GlobalNav({
             <Button asChild className="w-full h-12 font-mono uppercase tracking-widest">
               <Link href="/checkout">Checkout</Link>
             </Button>
+            {isAmbassador && shoppingForCustomer && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="w-full font-mono text-xs text-muted-foreground hover:text-foreground"
+                onClick={onSaveCart}
+              >
+                Save Cart
+              </Button>
+            )}
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={savedCartsOpen} onOpenChange={setSavedCartsOpen}>
+        <SheetContent side="right" className="w-full sm:max-w-md">
+          <SheetHeader className="px-6">
+            <SheetTitle className="text-2xl font-normal">Saved Carts</SheetTitle>
+            <SheetDescription className="text-sm text-muted-foreground font-mono">
+              Load a previously saved cart
+            </SheetDescription>
+          </SheetHeader>
+
+          <div className="mt-8 px-6 space-y-4">
+            {savedCarts.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-8">No saved carts yet</p>
+            ) : (
+              savedCarts.map((cart: any) => (
+                <Card
+                  key={cart.id}
+                  className="p-4 cursor-pointer hover:border-primary transition-colors"
+                  onClick={() => {
+                    onLoadCart?.(cart.id)
+                    setSavedCartsOpen(false)
+                  }}
+                >
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <p className="text-sm font-medium">{cart.customerName}</p>
+                        <p className="text-xs text-muted-foreground font-mono">
+                          {cart.itemCount} items • ${cart.total.toFixed(2)}
+                        </p>
+                      </div>
+                      <Badge variant="secondary" className="text-xs">
+                        {new Date(cart.savedAt).toLocaleDateString()}
+                      </Badge>
+                    </div>
+                  </div>
+                </Card>
+              ))
+            )}
           </div>
         </SheetContent>
       </Sheet>

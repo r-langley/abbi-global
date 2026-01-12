@@ -6,6 +6,14 @@ import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuCheckboxItem,
@@ -72,9 +80,25 @@ export default function CategoryPage({ params }: { params: { category: string } 
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-6 py-16">
           <div className="mb-12">
-            <Link href="/shop" className="text-sm text-muted-foreground hover:text-primary mb-4 inline-block">
-              ← Back to Shop
-            </Link>
+            <Breadcrumb className="mb-6">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/">Home</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbLink asChild>
+                    <Link href="/shop">Shop</Link>
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{category.name}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
             <h1 className="text-4xl font-normal tracking-tight mb-4">{category.name}</h1>
             <p className="text-lg text-muted-foreground">{category.description}</p>
           </div>

@@ -8,6 +8,14 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
 import { GlobalNav } from "@/components/global-nav"
 import { getProductBySlug, getCategoryBySlug } from "@/lib/product-data"
 
@@ -63,12 +71,31 @@ export default function ProductPage({ params }: { params: { category: string; pr
 
       <div className="min-h-screen bg-background">
         <div className="container mx-auto px-6 py-16">
-          <Link
-            href={`/shop/${params.category}`}
-            className="text-sm text-muted-foreground hover:text-primary mb-8 inline-block"
-          >
-            ← Back to {category.name}
-          </Link>
+          <Breadcrumb className="mb-8">
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/">Home</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/shop">Shop</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href={`/shop/${params.category}`}>{category.name}</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{product.name}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
