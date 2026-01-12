@@ -23,13 +23,13 @@ import { GlobalNav } from "@/components/global-nav"
 import { ProductCard } from "@/components/product-card"
 import { getCategoryBySlug, getProductsByCategory, traits } from "@/lib/product-data"
 
-export default function CategoryPageClient({ params }: { params: { category: string } }) {
+export default function CategoryPageClient({ category: categorySlug }: { category: string }) {
   const [selectedTraits, setSelectedTraits] = useState<string[]>([])
   const [cartItems, setCartItems] = useState<any[]>([])
   const [cartOpen, setCartOpen] = useState(false)
 
-  const category = getCategoryBySlug(params.category)
-  const allProducts = getProductsByCategory(params.category)
+  const category = getCategoryBySlug(categorySlug)
+  const allProducts = getProductsByCategory(categorySlug)
 
   if (!category) {
     notFound()
@@ -145,7 +145,7 @@ export default function CategoryPageClient({ params }: { params: { category: str
                 title={product.name}
                 price={product.price}
                 badge={product.recommended ? "Recommended" : undefined}
-                href={`/shop/${params.category}/${product.slug}`}
+                href={`/shop/${categorySlug}/${product.slug}`}
                 traits={product.traits}
                 onAddToCart={() => handleAddToCart(product)}
               />
