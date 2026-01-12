@@ -19,14 +19,17 @@ import {
 import { GlobalNav } from "@/components/global-nav"
 import { getProductBySlug, getCategoryBySlug } from "@/lib/product-data"
 
-export default function ProductPageClient({ params }: { params: { category: string; product: string } }) {
-  const product = getProductBySlug(params.product)
-  const category = getCategoryBySlug(params.category)
+export default function ProductPageClient({
+  category: categorySlug,
+  product: productSlug,
+}: { category: string; product: string }) {
+  const product = getProductBySlug(productSlug)
+  const category = getCategoryBySlug(categorySlug)
   const [purchaseType, setPurchaseType] = useState<"one-time" | "subscription">("one-time")
   const [cartItems, setCartItems] = useState<any[]>([])
   const [cartOpen, setCartOpen] = useState(false)
 
-  if (!product || !category || product.category !== params.category) {
+  if (!product || !category || product.category !== categorySlug) {
     notFound()
   }
 
@@ -87,7 +90,7 @@ export default function ProductPageClient({ params }: { params: { category: stri
               <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href={`/shop/${params.category}`}>{category.name}</Link>
+                  <Link href={`/shop/${categorySlug}`}>{category.name}</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />

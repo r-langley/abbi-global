@@ -1,8 +1,9 @@
 import { categories } from "@/lib/product-data"
 import CategoryPageClient from "./category-page-client"
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
-  return <CategoryPageClient params={params} />
+export default async function CategoryPage({ params }: { params: Promise<{ category: string }> }) {
+  const { category } = await params
+  return <CategoryPageClient category={category} />
 }
 
 export function generateStaticParams() {
