@@ -3,42 +3,99 @@
 import Link from "next/link"
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { GlobalNav } from "@/components/global-nav"
 import { ProductCard } from "@/components/product-card"
 import { categories, traits, productData } from "@/lib/product-data"
 
 export default function ShopPage() {
-  const [selectedTrait, setSelectedTrait] = useState<string | null>(null)
+  const [selectedTraits, setSelectedTraits] = useState<string[]>([])
+  const [cartItems, setCartItems] = useState<any[]>([])
+  const [cartOpen, setCartOpen] = useState(false)
 
-  const filteredProducts = selectedTrait ? productData.filter((p) => p.traits.includes(selectedTrait)) : productData
+  const toggleTrait = (trait: string) => {
+    setSelectedTraits((prev) => (prev.includes(trait) ? prev.filter((t) => t !== trait) : [...prev, trait]))
+  }
+
+  const filteredProducts =
+    selectedTraits.length > 0
+      ? productData.filter((p) => selectedTraits.some((trait) => p.traits.includes(trait)))
+      : productData
+
+  const handleAddToCart = (product: any) => {
+    const existingItem = cartItems.find((item) => item.id === product.id)
+    if (existingItem) {
+      setCartItems(cartItems.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item)))
+    } else {
+      setCartItems([...cartItems, { ...product, quantity: 1 }])
+    }
+    setCartOpen(true)
+    setTimeout(() => setCartOpen(false), 3000)
+  }
+
+  const handleRemoveFromCart = (itemId: number) => {
+    setCartItems(cartItems.filter((item) => item.id !== itemId))
+  }
+
+  const handleUpdateQuantity = (itemId: number, quantity: number) => {
+    if (quantity <= 0) {
+      handleRemoveFromCart(itemId)
+    } else {
+      setCartItems(cartItems.map((item) => (item.id === itemId ? { ...item, quantity } : item)))
+    }
+  }
 
   return (
     <>
-      <GlobalNav />
+      <GlobalNav
+        cartOpen={cartOpen}
+        onCartOpenChange={setCartOpen}
+        cartItems={cartItems}
+        onRemoveFromCart={handleRemoveFromCart}
+        onUpdateQuantity={handleUpdateQuantity}
+      />
 
       <div className="min-h-screen bg-background">
         <div className="container mx-auto py-6 px-4">
-          <section className="mb-12">
-            <h2 className="text-xl font-normal tracking-tight mb-4">Filter by Trait</h2>
-            <div className="flex flex-wrap gap-1.5">
-              <Badge
-                variant={selectedTrait === null ? "default" : "outline"}
-                className="px-4 py-2 text-sm rounded-full cursor-pointer"
-                onClick={() => setSelectedTrait(null)}
-              >
-                All
-              </Badge>
-              {traits.map((trait) => (
-                <Badge
-                  key={trait}
-                  variant={selectedTrait === trait ? "default" : "outline"}
-                  className="px-4 py-2 text-sm rounded-full cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
-                  onClick={() => setSelectedTrait(trait)}
-                >
-                  {trait}
-                </Badge>
-              ))}
-            </div>
+          <section className="mb-8">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="gap-2 bg-transparent">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+                  </svg>
+                  Filter by Trait
+                  {selectedTraits.length > 0 && <Badge variant="secondary">{selectedTraits.length}</Badge>}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56">
+                {traits.map((trait) => (
+                  <DropdownMenuCheckboxItem
+                    key={trait}
+                    checked={selectedTraits.includes(trait)}
+                    onCheckedChange={() => toggleTrait(trait)}
+                  >
+                    {trait}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </section>
 
           <section className="space-y-16">
@@ -66,6 +123,7 @@ export default function ShopPage() {
                         badge={product.recommended ? "Recommended" : undefined}
                         href={`/shop/${cat.slug}/${product.slug}`}
                         traits={product.traits}
+                        onAddToCart={() => handleAddToCart(product)}
                       />
                     ))}
                   </div>

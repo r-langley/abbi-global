@@ -8,26 +8,23 @@ import { GlobalNav } from "@/components/global-nav"
 import { ProductCard } from "@/components/product-card"
 import { useEffect, useRef, useState } from "react"
 
-const products = [
+const categoryCards = [
   {
     title: "Custom Creams",
     badge: "Recommended",
     price: "Starting at $89",
-    cta: "CREATE MY ROUTINE",
     href: "/shop/custom-creams",
   },
   {
     title: "Mix-at-Home Creams",
     badge: "Best Seller",
     price: "Starting at $49",
-    cta: "PICK YOUR BASE",
     href: "/shop/mix-at-home",
   },
   {
     title: "Simple Solutions",
     badge: "New",
     price: "Complete kits starting at $119",
-    cta: "SHOP BY TRAIT",
     href: "/shop/simple-solutions",
   },
 ]
@@ -52,6 +49,23 @@ const faqs = [
 export default function HomePage() {
   const [isScanning, setIsScanning] = useState(false)
   const scanSectionRef = useRef<HTMLDivElement>(null)
+  const [cartOpen, setCartOpen] = useState(false)
+  const [cartItems, setCartItems] = useState<any[]>([])
+
+  const handleAddToCart = (product: any) => {
+    setCartItems((prev) => [...prev, { ...product, quantity: 1, id: Date.now() }])
+    setCartOpen(true)
+    setTimeout(() => setCartOpen(false), 3000)
+  }
+
+  const handleRemoveFromCart = (itemId: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== itemId))
+  }
+
+  const handleUpdateQuantity = (itemId: number, quantity: number) => {
+    if (quantity < 1) return
+    setCartItems((prev) => prev.map((item) => (item.id === itemId ? { ...item, quantity } : item)))
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,12 +88,17 @@ export default function HomePage() {
 
   return (
     <>
-      {/* Global Navigation */}
-      <GlobalNav />
+      <GlobalNav
+        cartOpen={cartOpen}
+        onCartOpenChange={setCartOpen}
+        cartItems={cartItems}
+        onRemoveFromCart={handleRemoveFromCart}
+        onUpdateQuantity={handleUpdateQuantity}
+      />
 
       <main className="pt-0">
         {/* Hero Section */}
-        <section className="relative min-h-[600px] md:min-h-[700px] w-full bg-muted overflow-hidden">
+        <section className="relative w-full min-h-[600px] md:min-h-[700px] bg-muted overflow-hidden">
           <Image
             src="/images/hero-bottle.png"
             alt="ABBI custom skincare bottle"
@@ -90,15 +109,13 @@ export default function HomePage() {
           />
           <div className="relative h-full min-h-[600px] md:min-h-[700px] flex items-center justify-end px-6 md:px-10 py-10">
             <div className="max-w-xl flex flex-col items-end text-right gap-4">
-              <h1 className="text-4xl font-normal text-white tracking-tight leading-tight md:text-4xl">
-                Your Skin, Our Formula
-              </h1>
-              <p className="text-white/80 text-base">Discover the future of personalized care.</p>
+              <h1 className="text-4xl font-normal text-white tracking-tight leading-tight">Your Skin, Our Formula</h1>
+              <p className="text-lg text-white/80">Discover the future of personalized care.</p>
               <Button
                 variant="outline"
                 size="lg"
                 asChild
-                className="px-8 h-12 text-white uppercase border-white hover:bg-white/10 bg-transparent rounded-xs font-mono font-normal tracking-widest text-sm"
+                className="px-8 h-12 text-white uppercase border-white hover:bg-white/10 bg-transparent rounded-sm font-mono font-normal tracking-widest text-sm"
               >
                 <Link href="/skin-analysis">Start My Journey</Link>
               </Button>
@@ -108,11 +125,11 @@ export default function HomePage() {
 
         {/* AI Skin Analysis Section */}
         <section ref={scanSectionRef} className="py-16 md:py-24 bg-background">
-          <div className="container mx-auto px-0">
+          <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div className="max-w-lg mx-auto md:mx-0 text-center px-4">
+              <div className="max-w-lg mx-auto md:mx-0 text-center">
                 <div className="flex flex-col items-center gap-2 mb-4 text-foreground font-mono text-xs uppercase tracking-widest">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -122,7 +139,7 @@ export default function HomePage() {
                   </svg>
                   <span>ABBI AI IS HERE</span>
                 </div>
-                <h2 className="text-2xl md:text-3xl text-foreground leading-tight mb-6 font-normal tracking-tight">
+                <h2 className="text-3xl md:text-4xl text-foreground leading-tight mb-6 font-normal tracking-tight">
                   Personalized cosmetics based on your skin's unique needs
                 </h2>
                 <p className="text-lg text-muted-foreground mb-8">
@@ -131,7 +148,7 @@ export default function HomePage() {
                 <Button
                   asChild
                   size="lg"
-                  className="px-8 h-12 font-mono uppercase rounded-xs bg-muted text-primary tracking-widest"
+                  className="px-8 h-12 font-mono uppercase rounded-sm bg-muted text-primary tracking-widest"
                 >
                   <Link href="/skin-analysis">Analyze My Skin</Link>
                 </Button>
@@ -142,10 +159,9 @@ export default function HomePage() {
                   src="/images/face-scan.png"
                   alt="AI skin analysis scan"
                   fill
-                  className="object-cover px-2 py-2"
+                  className="object-cover p-2"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
-                {/* Scanning Animation Overlay */}
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">
                   <div className={isScanning ? "scan-line" : "scan-line-hidden"} />
                 </div>
@@ -155,10 +171,10 @@ export default function HomePage() {
         </section>
 
         {/* Featured Products Section */}
-        <section className="md:py-24 bg-muted py-6">
-          <div className="container mx-auto px-4 py-0">
+        <section className="py-16 md:py-24 bg-muted">
+          <div className="container mx-auto px-4">
             <div className="mb-8">
-              <h2 className="text-foreground mb-2 tracking-tight text-2xl md:text-3xl font-normal">
+              <h2 className="text-3xl md:text-4xl text-foreground mb-2 tracking-tight font-normal">
                 Featured Products
               </h2>
               <Link href="/shop" className="text-muted-foreground hover:text-primary transition-colors">
@@ -167,13 +183,13 @@ export default function HomePage() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {products.map((product) => (
+              {categoryCards.map((category) => (
                 <ProductCard
-                  key={product.title}
-                  title={product.title}
-                  price={product.price}
-                  badge={product.badge}
-                  href={product.href}
+                  key={category.title}
+                  title={category.title}
+                  price={category.price}
+                  badge={category.badge}
+                  href={category.href}
                 />
               ))}
             </div>
@@ -182,8 +198,8 @@ export default function HomePage() {
 
         {/* How it Works Section */}
         <section className="py-16 md:py-24 bg-primary">
-          <div className="container mx-auto px-0">
-            <h2 className="text-2xl md:text-4xl font-normal mb-12 text-center tracking-tight text-primary-foreground">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-normal mb-12 text-center tracking-tight text-primary-foreground">
               How it works
             </h2>
 
@@ -207,7 +223,7 @@ export default function HomePage() {
         {/* FAQ Section */}
         <section className="py-16 md:py-24 bg-background">
           <div className="container mx-auto max-w-4xl px-4">
-            <h2 className="text-2xl md:text-4xl font-medium text-foreground mb-12">FAQ</h2>
+            <h2 className="text-3xl md:text-4xl font-medium text-foreground mb-12">FAQ</h2>
             <Accordion type="single" collapsible className="w-full">
               {faqs.map((question, index) => (
                 <AccordionItem key={index} value={`item-${index}`} className="border-b border-border">
@@ -226,9 +242,9 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="text-background py-12 bg-primary">
-        <div className="container mx-auto px-0">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 px-4">
+      <footer className="py-12 bg-primary text-background">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div>
               <h4 className="font-semibold mb-4">Shop</h4>
               <ul className="space-y-2 text-sm text-background/70">
