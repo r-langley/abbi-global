@@ -2,9 +2,10 @@ import type React from "react"
 import type { Metadata } from "next"
 
 import { Analytics } from "@vercel/analytics/next"
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
-import { Geist, Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Vollkorn as V0_Font_Vollkorn } from 'next/font/google'
+import { Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Vollkorn as V0_Font_Vollkorn } from 'next/font/google'
 
 // Initialize fonts
 const _geist = V0_Font_Geist({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
@@ -45,6 +46,7 @@ export default function RootLayout({
     <html lang="en" className={`${_geist.variable} ${_geistMono.variable} ${_vollkorn.variable}`}>
       <body className="font-sans antialiased">
         {children}
+        <Toaster />
         <Analytics />
       </body>
     </html>

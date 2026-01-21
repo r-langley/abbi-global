@@ -196,20 +196,16 @@ export function GlobalNav({
                         <div className="grid grid-cols-2 gap-6">
                           {categories.map((category) => (
                             <Link key={category.slug} href={`/shop/${category.slug}`} className="group flex gap-3">
-                              <div className="flex-shrink-0 mt-1">
-                                <svg
-                                  className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+                              <div className="flex-shrink-0">
+                                <div className="w-16 h-16 rounded-lg overflow-hidden bg-muted">
+                                  <Image
+                                    src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                    alt={category.name}
+                                    width={64}
+                                    height={64}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                                   />
-                                </svg>
+                                </div>
                               </div>
                               <div>
                                 <div className="font-sans text-sm font-normal hover:text-primary transition-colors">

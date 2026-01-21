@@ -78,8 +78,9 @@ export default function CategoryPageClient({ category: categorySlug }: { categor
       />
 
       <div className="min-h-screen bg-background">
-        <div className="container mx-auto px-6 py-16">
-          <div className="mb-12">
+        {/* Category Hero */}
+        <section className="bg-primary/5 border-b border-border">
+          <div className="container mx-auto px-6 py-12">
             <Breadcrumb className="mb-6">
               <BreadcrumbList>
                 <BreadcrumbItem>
@@ -99,10 +100,12 @@ export default function CategoryPageClient({ category: categorySlug }: { categor
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <h1 className="text-4xl font-normal tracking-tight mb-4">{category.name}</h1>
-            <p className="text-lg text-muted-foreground">{category.description}</p>
+            <h1 className="text-3xl md:text-4xl font-normal tracking-tight mb-2">{category.heroTitle || category.name}</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">{category.heroSubtitle || category.description}</p>
           </div>
+        </section>
 
+        <div className="container mx-auto px-6 py-12">
           <section className="mb-8">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -147,6 +150,7 @@ export default function CategoryPageClient({ category: categorySlug }: { categor
                 badge={product.recommended ? "Recommended" : undefined}
                 href={`/shop/${categorySlug}/${product.slug}`}
                 traits={product.traits}
+                image={product.image} // Added image prop to display custom cream images
                 onAddToCart={() => handleAddToCart(product)}
               />
             ))}

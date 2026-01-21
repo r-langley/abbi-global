@@ -14,18 +14,23 @@ const categoryCards = [
     badge: "Recommended",
     price: "Starting at $89",
     href: "/shop/in-lab-creams",
+    image: "/images/custom-cream-alya.jpg",
+    traits: ["Hydration", "Anti-Aging", "Radiance"],
   },
   {
     title: "Mix-at-Home Creams",
     badge: "Best Seller",
     price: "Starting at $24.90",
     href: "/shop/mix-at-home",
+    image: "/images/mix-at-home-set.png",
+    traits: ["Customizable", "Texture", "Radiance"],
   },
   {
     title: "Simple Solutions",
     badge: "New",
     price: "Complete kits starting at $59.95",
     href: "/shop/simple-solution",
+    traits: ["Complete Kit", "Targeted"],
   },
 ]
 
@@ -51,6 +56,8 @@ export default function HomePage() {
   const scanSectionRef = useRef<HTMLDivElement>(null)
   const [cartOpen, setCartOpen] = useState(false)
   const [cartItems, setCartItems] = useState<any[]>([])
+  const [parallaxOffset, setParallaxOffset] = useState(0)
+  const ambassadorsRef = useRef<HTMLDivElement>(null)
 
   const handleAddToCart = (product: any) => {
     setCartItems((prev) => [...prev, { ...product, quantity: 1, id: Date.now() }])
@@ -84,6 +91,21 @@ export default function HomePage() {
     }
 
     return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (ambassadorsRef.current) {
+        const rect = ambassadorsRef.current.getBoundingClientRect()
+        const scrolled = window.scrollY
+        const sectionTop = ambassadorsRef.current.offsetTop
+        const offset = (scrolled - sectionTop) * 0.06
+        setParallaxOffset(offset)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   return (
@@ -134,7 +156,7 @@ export default function HomePage() {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={1.5}
-                      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.456-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"
+                      d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.456-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"
                     />
                   </svg>
                   <span>ABBI AI IS HERE</span>
@@ -190,6 +212,8 @@ export default function HomePage() {
                   price={category.price}
                   badge={category.badge}
                   href={category.href}
+                  image={category.image}
+                  traits={category.traits}
                 />
               ))}
             </div>
@@ -207,15 +231,44 @@ export default function HomePage() {
               {steps.map((step, i) => (
                 <div key={step.num} className="text-center relative">
                   <div className="text-2xl mb-6 font-serif text-accent">{step.num}</div>
-                  <h3 className="text-xl md:text-2xl font-normal mb-4 tracking-tight text-primary-foreground">
-                    {step.title}
-                  </h3>
-                  <p className="text-muted-foreground">{step.desc}</p>
+                  <h3 className="text-xl md:text-2xl font-normal mb-4 tracking-tight text-chart-4">{step.title}</h3>
+                  <p className="text-primary-foreground">{step.desc}</p>
                   {i < 2 && (
                     <div className="hidden md:block absolute top-0 right-0 h-full w-px border-r border-dotted border-border" />
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Ambassadors Section */}
+        <section ref={ambassadorsRef} className="relative py-24 md:py-32 bg-[oklch(0.65_0.13_192)] overflow-hidden">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <div className="flex items-center justify-center gap-8 mb-6">
+                <span className="text-white/70 font-mono text-sm uppercase tracking-widest">JOIN</span>
+                <h2 className="text-4xl md:text-6xl font-normal text-white tracking-tight">OUR AMBASSADORS</h2>
+                <span className="text-white/70 font-mono text-sm uppercase tracking-widest">ABBI</span>
+              </div>
+            </div>
+
+            <div className="flex justify-center py-0">
+              <div
+                className="relative w-full max-w-md aspect-[3/4] rounded-lg overflow-hidden shadow-2xl"
+                style={{
+                  transform: `translateY(${parallaxOffset}px)`,
+                  transition: "transform 0.1s ease-out",
+                }}
+              >
+                <Image
+                  src="/images/image.png"
+                  alt="ABBI Ambassadors - diverse group of women"
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </div>
             </div>
           </div>
         </section>

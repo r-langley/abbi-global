@@ -9,6 +9,8 @@ import { Badge } from "@/components/ui/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Checkbox } from "@/components/ui/checkbox"
 import { GlobalNav } from "@/components/global-nav"
 import { ProductCard } from "@/components/product-card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
@@ -19,8 +21,12 @@ export default function AccountPage() {
   const [chatMessages, setChatMessages] = useState<Array<{ role: "user" | "assistant"; content: string }>>([
     { role: "assistant", content: "Hello! I'm your ABBI AI assistant. How can I help with your skincare today?" },
   ])
+  const [sameAsHome, setSameAsHome] = useState(true)
+  const [isEditingProfile, setIsEditingProfile] = useState(false)
+  const [familyMemberView, setFamilyMemberView] = useState<string | null>(null)
 
   const isAmbassador = true
+  const viewingAsFamilyMember = "Emily Miller"
 
   const routineProducts = {
     morning: [
@@ -65,6 +71,12 @@ export default function AccountPage() {
     ],
   }
 
+  const getTrackingProgress = (status: string) => {
+    const stages = ["Ordered", "In Production", "Shipped", "In Transit", "Delivered"]
+    const currentIndex = stages.indexOf(status)
+    return { stages, currentIndex, percentage: ((currentIndex + 1) / stages.length) * 100 }
+  }
+
   return (
     <>
       <GlobalNav />
@@ -74,7 +86,7 @@ export default function AccountPage() {
           <Card className="mb-12">
             <CardContent className="p-8">
               <div className="flex gap-6 flex-wrap items-center flex-row justify-center">
-                <div className="flex items-center gap-4 flex-row">
+                <div className="flex items-center gap-4 flex-col">
                   <Dialog>
                     <DialogTrigger asChild>
                       <button className="w-20 h-20 rounded-full bg-muted flex items-center justify-center hover:opacity-80 transition-opacity">
@@ -98,7 +110,25 @@ export default function AccountPage() {
                   <div>
                     <div className="flex gap-2 flex-col items-start mb-0">
                       <h1 className="text-3xl font-normal tracking-tight">Sarah Miller</h1>
-                      {isAmbassador && <Badge className="bg-primary text-primary-foreground">Ambassador</Badge>}
+                      <div className="flex gap-2 flex-wrap items-center">
+                        {isAmbassador && <Badge className="bg-primary text-primary-foreground">Ambassador</Badge>}
+                        <Badge variant="outline" className="font-mono text-xs">
+                          #ABBI-2023-1156
+                        </Badge>
+                        {viewingAsFamilyMember && (
+                          <Badge variant="outline" className="text-xs gap-1.5 pl-1.5">
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                              />
+                            </svg>
+                            {viewingAsFamilyMember}'s family member
+                          </Badge>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -235,7 +265,7 @@ export default function AccountPage() {
                             d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                           />
                         </svg>
-                        Go to Dashboard
+                        Ambassador Dashboard
                       </Link>
                     </Button>
                   )}
@@ -245,30 +275,401 @@ export default function AccountPage() {
           </Card>
 
           <div className="space-y-12">
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-normal">Account Information</h2>
+                <Sheet open={isEditingProfile} onOpenChange={setIsEditingProfile}>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent">
+                      Edit Details
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+                    <SheetHeader className="px-6">
+                      <SheetTitle>Edit Account Information</SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-6 space-y-6 px-6">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="age" className="text-sm font-mono">
+                            Age
+                          </Label>
+                          <Input id="age" type="number" defaultValue="32" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="gender" className="text-sm font-mono">
+                            Gender
+                          </Label>
+                          <Input id="gender" defaultValue="Female" />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email" className="text-sm font-mono">
+                          Email Address
+                        </Label>
+                        <Input id="email" type="email" defaultValue="sarah.miller@example.com" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="mobile" className="text-sm font-mono">
+                          Mobile Number
+                        </Label>
+                        <Input id="mobile" type="tel" defaultValue="+1 (555) 123-4567" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="address" className="text-sm font-mono">
+                          Home Address
+                        </Label>
+                        <Input id="address" defaultValue="123 Main St" className="mb-2" />
+                        <Input id="city" defaultValue="San Francisco" className="mb-2" />
+                        <div className="grid grid-cols-2 gap-2">
+                          <Input id="state" defaultValue="CA" />
+                          <Input id="zip" defaultValue="94102" />
+                        </div>
+                      </div>
+                      <div className="space-y-3">
+                        <Label className="text-sm font-mono">Shipping Address</Label>
+                        <div className="flex items-center gap-2">
+                          <Checkbox
+                            id="sameAddress"
+                            checked={sameAsHome}
+                            onCheckedChange={(checked) => setSameAsHome(checked as boolean)}
+                          />
+                          <Label htmlFor="sameAddress" className="text-sm cursor-pointer font-normal">
+                            Same as home address
+                          </Label>
+                        </div>
+                        {!sameAsHome && (
+                          <div className="space-y-2 pt-2">
+                            <Input placeholder="Street Address" />
+                            <Input placeholder="City" />
+                            <div className="grid grid-cols-2 gap-2">
+                              <Input placeholder="State" />
+                              <Input placeholder="ZIP Code" />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <Button className="w-full font-mono text-xs">Save Changes</Button>
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
+              <div className="grid md:grid-cols-2 gap-4">
+                <Card>
+                  <CardContent className="p-6 space-y-3">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Age</span>
+                      <span className="text-sm">32</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Gender</span>
+                      <span className="text-sm">Female</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Email</span>
+                      <span className="text-sm">sarah.miller@example.com</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Mobile</span>
+                      <span className="text-sm">+1 (555) 123-4567</span>
+                    </div>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardContent className="p-6 space-y-3">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-2">Home Address</p>
+                      <p className="text-sm">
+                        123 Main St
+                        <br />
+                        San Francisco, CA 94102
+                      </p>
+                    </div>
+                    <div className="pt-3 border-t">
+                      <p className="text-sm text-muted-foreground mb-2">Shipping Address</p>
+                      <p className="text-sm">Same as home address</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-normal mb-6">My Ambassador</h2>
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center flex-shrink-0">
+                      <span className="text-xl font-normal">JD</span>
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-normal text-lg mb-1">Jennifer Davis</p>
+                      <p className="text-sm text-muted-foreground mb-2">Skincare Specialist</p>
+                      <p className="text-sm text-muted-foreground">jennifer.davis@example.com</p>
+                    </div>
+                    <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent">
+                      Contact
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </section>
+
             {/* Skin Scan History */}
             <section>
               <h2 className="text-2xl font-normal mb-6">Skin Scan History</h2>
-              <div className="grid md:grid-cols-2 gap-4">
-                <Card>
-                  <CardContent className="p-6">
-                    <p className="text-xs text-muted-foreground font-mono mb-2">Latest Scan</p>
-                    <p className="text-sm mb-1">December 15, 2023</p>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-normal">8.2</span>
-                      <span className="text-muted-foreground">/ 10</span>
+              <div className="grid md:grid-cols-3 gap-4">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-3">
+                          <p className="text-xs text-muted-foreground font-mono">Latest Scan</p>
+                          <Badge variant="outline" className="text-xs">Active</Badge>
+                        </div>
+                        <p className="text-sm font-medium mb-4">December 15, 2023</p>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Hydration</span>
+                            <span className="font-mono">62%</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Firmness</span>
+                            <span className="font-mono">78%</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Radiance</span>
+                            <span className="font-mono">55%</span>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t">
+                          <div className="flex flex-wrap gap-1.5">
+                            <Badge variant="outline" className="text-xs">Dark Spots</Badge>
+                            <Badge variant="outline" className="text-xs">Fine Lines</Badge>
+                            <Badge variant="outline" className="text-xs">Dryness</Badge>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Scan Details - December 15, 2023</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="font-medium mb-3">Skin Analysis</h3>
+                        <div className="space-y-3">
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Hydration Level</span>
+                              <span className="text-sm font-mono">62%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "62%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Firmness</span>
+                              <span className="text-sm font-mono">78%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "78%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Radiance</span>
+                              <span className="text-sm font-mono">55%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "55%" }} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-3">Identified Concerns</h3>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="outline">Dark Spots</Badge>
+                          <Badge variant="outline">Fine Lines</Badge>
+                          <Badge variant="outline">Dryness</Badge>
+                          <Badge variant="outline">Uneven Texture</Badge>
+                          <Badge variant="outline">Loss of Elasticity</Badge>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-3">Recommended Actions</h3>
+                        <ul className="space-y-2 text-sm text-muted-foreground">
+                          <li>• Increase hydration with hyaluronic acid formulas</li>
+                          <li>• Use vitamin C for brightening and dark spot reduction</li>
+                          <li>• Add peptides to improve firmness and elasticity</li>
+                        </ul>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardContent className="p-6">
-                    <p className="text-xs text-muted-foreground font-mono mb-2">Previous Scan</p>
-                    <p className="text-sm mb-1">September 10, 2023</p>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-normal">7.8</span>
-                      <span className="text-muted-foreground">/ 10</span>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-3">
+                          <p className="text-xs text-muted-foreground font-mono">Previous Scan</p>
+                        </div>
+                        <p className="text-sm font-medium mb-4">September 10, 2023</p>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Hydration</span>
+                            <span className="font-mono">58%</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Firmness</span>
+                            <span className="font-mono">75%</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Radiance</span>
+                            <span className="font-mono">52%</span>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t">
+                          <div className="flex flex-wrap gap-1.5">
+                            <Badge variant="outline" className="text-xs">Dark Spots</Badge>
+                            <Badge variant="outline" className="text-xs">Dryness</Badge>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Scan Details - September 10, 2023</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="font-medium mb-3">Skin Analysis</h3>
+                        <div className="space-y-3">
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Hydration Level</span>
+                              <span className="text-sm font-mono">58%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "58%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Firmness</span>
+                              <span className="text-sm font-mono">75%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "75%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Radiance</span>
+                              <span className="text-sm font-mono">52%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "52%" }} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-3">Identified Concerns</h3>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="outline">Dark Spots</Badge>
+                          <Badge variant="outline">Dryness</Badge>
+                          <Badge variant="outline">Uneven Texture</Badge>
+                        </div>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </DialogContent>
+                </Dialog>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-center justify-between mb-3">
+                          <p className="text-xs text-muted-foreground font-mono">Earlier Scan</p>
+                        </div>
+                        <p className="text-sm font-medium mb-4">June 5, 2023</p>
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Hydration</span>
+                            <span className="font-mono">54%</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Firmness</span>
+                            <span className="font-mono">73%</span>
+                          </div>
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground">Radiance</span>
+                            <span className="font-mono">48%</span>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t">
+                          <div className="flex flex-wrap gap-1.5">
+                            <Badge variant="outline" className="text-xs">Dryness</Badge>
+                            <Badge variant="outline" className="text-xs">Dullness</Badge>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-2xl">
+                    <DialogHeader>
+                      <DialogTitle>Scan Details - June 5, 2023</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-6">
+                      <div>
+                        <h3 className="font-medium mb-3">Skin Analysis</h3>
+                        <div className="space-y-3">
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Hydration Level</span>
+                              <span className="text-sm font-mono">54%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "54%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Firmness</span>
+                              <span className="text-sm font-mono">73%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "73%" }} />
+                            </div>
+                          </div>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm">Radiance</span>
+                              <span className="text-sm font-mono">48%</span>
+                            </div>
+                            <div className="h-2 bg-muted rounded-full overflow-hidden">
+                              <div className="h-full bg-primary rounded-full" style={{ width: "48%" }} />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-medium mb-3">Identified Concerns</h3>
+                        <div className="flex flex-wrap gap-2">
+                          <Badge variant="outline">Dryness</Badge>
+                          <Badge variant="outline">Dullness</Badge>
+                          <Badge variant="outline">Uneven Texture</Badge>
+                        </div>
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </section>
 
@@ -280,38 +681,116 @@ export default function AccountPage() {
                   <SheetTrigger asChild>
                     <Card className="cursor-pointer hover:shadow-md transition-shadow">
                       <CardContent className="p-6">
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Gentle Cleanser"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start mb-3">
-                              <div>
-                                <p className="font-normal mb-1">Gentle Cleanser</p>
-                                <p className="text-xs text-muted-foreground font-mono">#GC-2023-1256</p>
-                              </div>
-                              <Badge variant="secondary">Pending</Badge>
-                            </div>
-                            <div className="space-y-1 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">Order Date</span>
-                                <span>Dec 20, 2023</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">Total</span>
-                                <span className="font-medium">$17.89</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">Based on Scan</span>
-                                <span>Dec 15, 2023 (8.2/10)</span>
-                              </div>
+                        <div className="mb-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <p className="text-2xl font-normal">#GC-2023-1256</p>
+                              <p className="text-sm text-muted-foreground">December 20, 2023</p>
                             </div>
                           </div>
+                          <p className="text-sm text-muted-foreground mb-4">
+                            Tracking will be available once your order ships
+                          </p>
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-xs">
+                              <span className="font-medium">Ordered</span>
+                              <span className="text-muted-foreground">In Production</span>
+                              <span className="text-muted-foreground">Shipped</span>
+                              <span className="text-muted-foreground">In Transit</span>
+                              <span className="text-muted-foreground">Delivered</span>
+                            </div>
+                            <div className="relative h-2 bg-muted rounded-full overflow-hidden">
+                              <div
+                                className="absolute h-full bg-primary transition-all duration-300"
+                                style={{ width: "20%" }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Gentle Cleanser"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Gentle Cleanser</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
+                                </div>
+                                <span className="text-sm font-medium">$17.89</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Hyaluronic Serum"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Hyaluronic Serum</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 2</p>
+                                </div>
+                                <span className="text-sm font-medium">$34.00</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Night Cream"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Night Cream</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
+                                </div>
+                                <span className="text-sm font-medium">$45.00</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Vitamin C Concentrate"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Vitamin C Concentrate</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
+                                </div>
+                                <span className="text-sm font-medium">$28.00</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">Total (4 items)</span>
+                          <span className="text-lg font-medium">$124.89</span>
                         </div>
                       </CardContent>
                     </Card>
@@ -372,38 +851,135 @@ export default function AccountPage() {
                   <SheetTrigger asChild>
                     <Card className="cursor-pointer hover:shadow-md transition-shadow">
                       <CardContent className="p-6">
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Custom Formula"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start mb-3">
-                              <div>
-                                <p className="font-normal mb-1">Custom Formula</p>
-                                <p className="text-xs text-muted-foreground font-mono">#CF-2023-1245</p>
-                              </div>
-                              <Badge className="bg-primary text-primary-foreground">In Production</Badge>
+                        <div className="mb-4">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <p className="text-2xl font-normal">#CF-2023-1245</p>
+                              <p className="text-sm text-muted-foreground">December 18, 2023</p>
                             </div>
-                            <div className="space-y-1 text-sm">
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">Order Date</span>
-                                <span>Dec 18, 2023</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">Total</span>
-                                <span className="font-medium">$89.00</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span className="text-muted-foreground">Based on Scan</span>
-                                <span>Dec 15, 2023 (8.2/10)</span>
-                              </div>
+                            <Badge className="bg-primary text-primary-foreground">In Production</Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-4">Your custom formula is being prepared</p>
+                          <div className="space-y-2">
+                            <div className="flex justify-between text-xs">
+                              <span className="text-muted-foreground">Ordered</span>
+                              <span className="font-medium">In Production</span>
+                              <span className="text-muted-foreground">Shipped</span>
+                              <span className="text-muted-foreground">In Transit</span>
+                              <span className="text-muted-foreground">Delivered</span>
+                            </div>
+                            <div className="relative h-2 bg-muted rounded-full overflow-hidden">
+                              <div
+                                className="absolute h-full bg-primary transition-all duration-300"
+                                style={{ width: "40%" }}
+                              />
                             </div>
                           </div>
+                        </div>
+                        <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Custom Formula"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Custom Formula</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
+                                </div>
+                                <span className="text-sm font-medium">$89.00</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Exfoliating Cleanser"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Exfoliating Cleanser</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
+                                </div>
+                                <span className="text-sm font-medium">$24.00</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Peptide Serum"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Peptide Serum</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
+                                </div>
+                                <span className="text-sm font-medium">$52.00</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="No. 2 Brightening Concentrate"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">No. 2 Brightening Concentrate</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 2</p>
+                                </div>
+                                <span className="text-sm font-medium">$58.00</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex gap-4">
+                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Soothing Oil"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex justify-between items-start mb-3">
+                                <div>
+                                  <p className="font-normal mb-1">Soothing Oil</p>
+                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
+                                </div>
+                                <span className="text-sm font-medium">$38.00</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="mt-4 pt-4 border-t flex justify-between items-center">
+                          <span className="text-sm text-muted-foreground">Total (6 items)</span>
+                          <span className="text-lg font-medium">$261.00</span>
                         </div>
                       </CardContent>
                     </Card>
@@ -766,6 +1342,177 @@ export default function AccountPage() {
                   </div>
                 </CardContent>
               </Card>
+            </section>
+
+            <section>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-normal">Family Members</h2>
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent">
+                      Add Family Member
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+                    <SheetHeader className="px-6">
+                      <SheetTitle>Add Family Member</SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-6 space-y-4 px-6">
+                      <div className="space-y-2">
+                        <Label htmlFor="fullName" className="text-sm font-mono">
+                          Full Name
+                        </Label>
+                        <Input id="fullName" placeholder="Enter full name" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="familyAge" className="text-sm font-mono">
+                            Age
+                          </Label>
+                          <Input id="familyAge" type="number" placeholder="Age" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="familyGender" className="text-sm font-mono">
+                            Gender
+                          </Label>
+                          <Input id="familyGender" placeholder="Gender" />
+                        </div>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="familyEmail" className="text-sm font-mono">
+                          Email Address
+                        </Label>
+                        <Input id="familyEmail" type="email" placeholder="email@example.com" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="familyMobile" className="text-sm font-mono">
+                          Mobile Number
+                        </Label>
+                        <Input id="familyMobile" type="tel" placeholder="+1 (555) 000-0000" />
+                      </div>
+                      <Button className="w-full font-mono text-xs">Add Family Member</Button>
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
+              <div className="space-y-4">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Card className="cursor-pointer hover:shadow-md transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-center gap-4">
+                          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+                            <span className="text-lg font-normal">EM</span>
+                          </div>
+                          <div className="flex-1">
+                            <p className="font-normal mb-1">Emily Miller</p>
+                            <p className="text-sm text-muted-foreground">Daughter • Age 16</p>
+                          </div>
+                          <svg
+                            className="w-5 h-5 text-muted-foreground"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </SheetTrigger>
+                  <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+                    <SheetHeader className="px-6">
+                      <SheetTitle>Emily Miller's Profile</SheetTitle>
+                    </SheetHeader>
+                    <div className="mt-6 space-y-6 px-6">
+                      <Card>
+                        <CardContent className="p-4 space-y-3">
+                          <div className="flex justify-between">
+                            <span className="text-sm text-muted-foreground">Age</span>
+                            <span className="text-sm">16</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-muted-foreground">Gender</span>
+                            <span className="text-sm">Female</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-muted-foreground">Email</span>
+                            <span className="text-sm">emily.miller@example.com</span>
+                          </div>
+                          <div className="flex justify-between">
+                            <span className="text-sm text-muted-foreground">Mobile</span>
+                            <span className="text-sm">+1 (555) 987-6543</span>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      <div>
+                        <h3 className="font-normal mb-4">Scan History</h3>
+                        <div className="space-y-3">
+                          <Card>
+                            <CardContent className="p-4">
+                              <div className="flex justify-between items-center mb-2">
+                                <span className="text-sm">November 28, 2023</span>
+                                <Badge variant="outline">Latest</Badge>
+                              </div>
+                              <div className="flex items-baseline gap-1">
+                                <span className="text-2xl font-normal">7.5</span>
+                                <span className="text-muted-foreground">/ 10</span>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="font-normal mb-4">Products</h3>
+                        <div className="space-y-3">
+                          <div className="flex gap-3">
+                            <div className="w-16 h-16 bg-muted rounded-lg relative overflow-hidden flex-shrink-0">
+                              <Image
+                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
+                                alt="Teen Gentle Cleanser"
+                                fill
+                                className="object-cover"
+                              />
+                            </div>
+                            <div className="flex-1">
+                              <p className="text-sm font-normal mb-1">Teen Gentle Cleanser</p>
+                              <div className="flex gap-1 flex-wrap">
+                                <Badge variant="outline" className="text-xs">
+                                  Sensitivity
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  Acne
+                                </Badge>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </SheetContent>
+                </Sheet>
+
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <svg
+                      className="w-12 h-12 text-muted-foreground mx-auto mb-3"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                      />
+                    </svg>
+                    <p className="text-sm text-muted-foreground">
+                      Add family members to manage their skincare routines
+                    </p>
+                  </CardContent>
+                </Card>
+              </div>
             </section>
           </div>
         </div>

@@ -123,6 +123,7 @@ export default function ShopPage() {
                         badge={product.recommended ? "Recommended" : undefined}
                         href={`/shop/${cat.slug}/${product.slug}`}
                         traits={product.traits}
+                        image={product.image} // Added image prop to display custom cream images
                         onAddToCart={() => handleAddToCart(product)}
                       />
                     ))}
