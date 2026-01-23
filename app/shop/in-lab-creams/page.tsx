@@ -121,7 +121,7 @@ export default function InLabCreamsPage() {
                     src={CUSTOM_CREAM_IMAGE || "/placeholder.svg"}
                     alt="Custom cream formulation"
                     fill
-                    className="object-cover"
+                    className="object-cover rounded-xl"
                   />
                 </div>
               </div>
@@ -176,7 +176,7 @@ export default function InLabCreamsPage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {products.map((product) => (
               <ProductCard
                 key={product.id}

@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 
 import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "@/components/ui/toaster"
+import { ScrollToTop } from "@/components/scroll-to-top"
 import "./globals.css"
 
 import { Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Vollkorn as V0_Font_Vollkorn } from 'next/font/google'
@@ -45,6 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${_geist.variable} ${_geistMono.variable} ${_vollkorn.variable}`}>
       <body className="font-sans antialiased">
+        <ScrollToTop />
         {children}
         <Toaster />
         <Analytics />

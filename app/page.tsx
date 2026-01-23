@@ -181,7 +181,7 @@ export default function HomePage() {
                   src="/images/face-scan.png"
                   alt="AI skin analysis scan"
                   fill
-                  className="object-cover p-2"
+                  className="object-cover p-2 px-0 py-0"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 <div className="absolute inset-0 pointer-events-none overflow-hidden">

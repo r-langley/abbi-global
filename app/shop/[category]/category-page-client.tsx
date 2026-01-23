@@ -77,9 +77,9 @@ export default function CategoryPageClient({ category: categorySlug }: { categor
         onUpdateQuantity={handleUpdateQuantity}
       />
 
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-accent">
         {/* Category Hero */}
-        <section className="bg-primary/5 border-b border-border">
+        <section className="border-b border-border bg-card">
           <div className="container mx-auto px-6 py-12">
             <Breadcrumb className="mb-6">
               <BreadcrumbList>
@@ -106,42 +106,9 @@ export default function CategoryPageClient({ category: categorySlug }: { categor
         </section>
 
         <div className="container mx-auto px-6 py-12">
-          <section className="mb-8">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="gap-2 bg-transparent">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
-                  </svg>
-                  Filter by Trait
-                  {selectedTraits.length > 0 && <Badge variant="secondary">{selectedTraits.length}</Badge>}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56">
-                {traits.map((trait) => (
-                  <DropdownMenuCheckboxItem
-                    key={trait}
-                    checked={selectedTraits.includes(trait)}
-                    onCheckedChange={() => toggleTrait(trait)}
-                  >
-                    {trait}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </section>
+          
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {products.map((product) => (
               <ProductCard
                 key={product.id}

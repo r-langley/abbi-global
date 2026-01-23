@@ -233,7 +233,7 @@ export function GlobalNav({
 
             <div className="absolute left-1/2 -translate-x-1/2">
               <Link href="/" className="block">
-                <Image src="/images/abbi-logo.png" alt="ABBI" width={80} height={32} className="w-auto h-8" />
+                <Image src="/images/abbi-logo.png" alt="ABBI" width={80} height={32} className="w-auto h-6" />
               </Link>
             </div>
 

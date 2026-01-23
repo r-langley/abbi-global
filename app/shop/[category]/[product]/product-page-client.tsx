@@ -136,7 +136,7 @@ export default function ProductPageClient({
             </BreadcrumbList>
           </Breadcrumb>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Image Gallery */}
             <div className="space-y-4">
               <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">

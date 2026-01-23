@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -15,7 +16,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { GlobalNav } from "@/components/global-nav"
 import { ProductCard } from "@/components/product-card"
-import { getProductsByCategory, getCategoryBySlug } from "@/lib/product-data"
+import { getProductsByCategory, getCategoryBySlug, CUSTOM_CREAM_IMAGE, DEFAULT_PRODUCT_IMAGE } from "@/lib/product-data"
 
 export default function MixAtHomePage() {
   const [selectedBase, setSelectedBase] = useState<string | null>(null)
@@ -108,43 +109,9 @@ export default function MixAtHomePage() {
         </section>
 
         {/* How It Works */}
-        <section className="border-b border-border bg-muted/30">
-          <div className="container mx-auto px-6 py-8">
-            <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start md:items-center">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-mono">
-                  1
-                </div>
-                <div>
-                  <p className="font-medium">Choose Your Base</p>
-                  <p className="text-sm text-muted-foreground">Select a cream texture that suits your skin</p>
-                </div>
-              </div>
-              <div className="hidden md:block w-8 h-px bg-border" />
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-mono">
-                  2
-                </div>
-                <div>
-                  <p className="font-medium">Add Concentrates</p>
-                  <p className="text-sm text-muted-foreground">Pick 1-3 actives for your skin concerns</p>
-                </div>
-              </div>
-              <div className="hidden md:block w-8 h-px bg-border" />
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-mono">
-                  3
-                </div>
-                <div>
-                  <p className="font-medium">Mix & Apply</p>
-                  <p className="text-sm text-muted-foreground">Blend at home for fresh, custom skincare</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        
 
-        <div className="container mx-auto px-6 py-12">
+        <div className="container mx-auto px-6 py-6">
           {/* Step 1: Choose Base */}
           <section className="mb-16">
             <div className="flex items-center gap-3 mb-6">
@@ -157,7 +124,7 @@ export default function MixAtHomePage() {
               Your base determines the texture and feel of your final cream. Each is formulated to work 
               seamlessly with our active concentrates.
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
               {bases.map((base) => (
                 <Card
                   key={base.id}
@@ -169,6 +136,15 @@ export default function MixAtHomePage() {
                   onClick={() => handleSelectBase(base.id)}
                 >
                   <CardContent className="p-4">
+                    <div className="relative aspect-square bg-muted rounded-lg overflow-hidden mb-4">
+                      <Image
+                        src={base.image || CUSTOM_CREAM_IMAGE}
+                        alt={base.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                    </div>
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-medium">{base.name.split(' ').slice(0, 2).join(' ')}</h3>
                       {selectedBase === base.id && (
@@ -176,7 +152,7 @@ export default function MixAtHomePage() {
                       )}
                     </div>
                     <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{base.description}</p>
-                    <div className="flex items-center justify-between">
+                    <div className="flex justify-between flex-col items-start gap-3">
                       <span className="font-mono text-sm">${base.price.toFixed(2)}</span>
                       <div className="flex gap-1">
                         {base.traits.slice(0, 2).map((trait) => (
@@ -221,6 +197,15 @@ export default function MixAtHomePage() {
                   onClick={() => handleToggleConcentrate(concentrate.id)}
                 >
                   <CardContent className="p-4">
+                    <div className="relative aspect-square bg-muted rounded-lg overflow-hidden mb-4">
+                      <Image
+                        src={concentrate.image || DEFAULT_PRODUCT_IMAGE}
+                        alt={concentrate.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      />
+                    </div>
                     <div className="flex justify-between items-start mb-2">
                       <h3 className="font-medium">{concentrate.name}</h3>
                       {selectedConcentrates.includes(concentrate.id) && (
