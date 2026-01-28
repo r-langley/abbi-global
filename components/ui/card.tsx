@@ -7,7 +7,7 @@ const Card = React.memo(function Card({ className, ...props }: React.ComponentPr
     <div
       data-slot="card"
       className={cn(
-        'bg-card text-card-foreground flex flex-col rounded-xl border shadow-sm py-0 gap-4',
+        'bg-card text-card-foreground flex flex-col rounded-xl border shadow-sm py-0 gap-0',
         className,
       )}
       {...props}
