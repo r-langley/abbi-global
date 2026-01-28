@@ -130,41 +130,7 @@ export default function InLabCreamsPage() {
         )}
 
         {/* How It Works */}
-        <section className="border-b border-border bg-muted/30">
-          <div className="container mx-auto px-6 py-10">
-            <h3 className="text-lg font-medium mb-6 text-center">How Custom Creams Work</h3>
-            <div className="grid md:grid-cols-4 gap-6 text-center">
-              <div>
-                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-mono mx-auto mb-3">
-                  1
-                </div>
-                <p className="font-medium text-sm">Analyze</p>
-                <p className="text-xs text-muted-foreground mt-1">AI-powered skin scan identifies your unique needs</p>
-              </div>
-              <div>
-                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-mono mx-auto mb-3">
-                  2
-                </div>
-                <p className="font-medium text-sm">Formulate</p>
-                <p className="text-xs text-muted-foreground mt-1">Our lab creates your personalized recipe</p>
-              </div>
-              <div>
-                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-mono mx-auto mb-3">
-                  3
-                </div>
-                <p className="font-medium text-sm">Craft</p>
-                <p className="text-xs text-muted-foreground mt-1">Made fresh in France with premium ingredients</p>
-              </div>
-              <div>
-                <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-mono mx-auto mb-3">
-                  4
-                </div>
-                <p className="font-medium text-sm">Deliver</p>
-                <p className="text-xs text-muted-foreground mt-1">Ships directly to you within 5-7 days</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        
 
         {/* Products Section */}
         <div className="container mx-auto px-6 py-12">
