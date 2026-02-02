@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { GlobalNav } from "@/components/global-nav"
 import { Sheet, SheetContent, SheetTitle, SheetDescription, SheetHeader } from "@/components/ui/sheet"
@@ -9,14 +9,13 @@ import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { mockCustomers, type Customer } from "@/lib/customer-data"
+import { filterCustomers, isValidCustomerData } from "@/lib/customer-utils"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 
 export default function CartPage() {
   const router = useRouter()
   const [cartEmpty] = useState(false)
-  const [isLoggedIn] = useState(true)
-  const [isAmbassador] = useState(true)
   const [shopForOtherOpen, setShopForOtherOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null)
@@ -29,18 +28,13 @@ export default function CartPage() {
     }
   }, [cartEmpty, router])
 
-  const filteredCustomers = mockCustomers.filter(
-    (customer) =>
-      customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchQuery.toLowerCase()),
+  const filteredCustomers = useMemo(
+    () => filterCustomers(mockCustomers, searchQuery),
+    [searchQuery]
   )
 
   const handleStartShopping = () => {
-    if (selectedCustomer) {
-      console.log("[v0] Starting shopping session for:", selectedCustomer)
-    } else if (newCustomer.name && newCustomer.email) {
-      console.log("[v0] Creating new customer and starting session:", newCustomer)
-    }
+    // Customer selection is handled - close the sheet
     setShopForOtherOpen(false)
   }
 
@@ -213,7 +207,7 @@ export default function CartPage() {
                 <div className="pt-4">
                   <Button
                     onClick={handleStartShopping}
-                    disabled={!selectedCustomer && (!newCustomer.name || !newCustomer.email)}
+                    disabled={!selectedCustomer && !isValidCustomerData(newCustomer.name, newCustomer.email)}
                     className="w-full h-12 font-mono uppercase tracking-widest"
                   >
                     Start Shopping

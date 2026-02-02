@@ -6,19 +6,33 @@ import { Toaster } from "@/components/ui/toaster"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import "./globals.css"
 
-import { Geist as V0_Font_Geist, Geist_Mono as V0_Font_Geist_Mono, Vollkorn as V0_Font_Vollkorn } from 'next/font/google'
+import { Geist, Geist_Mono, Vollkorn } from 'next/font/google'
 
-// Initialize fonts
-const _geist = V0_Font_Geist({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
-const _geistMono = V0_Font_Geist_Mono({ subsets: ['latin'], weight: ["100","200","300","400","500","600","700","800","900"] })
-const _vollkorn = V0_Font_Vollkorn({ subsets: ['latin'], weight: ["400","500","600","700","800","900"] })
+// Initialize fonts with CSS variable support - load only commonly used weights
+const geist = Geist({
+  subsets: ['latin'],
+  weight: ["300", "400", "500", "600"],
+  variable: '--font-geist',
+  display: 'swap',
+})
 
-// Initialize fonts - optimized to load only necessary weights
+const geistMono = Geist_Mono({
+  subsets: ['latin'],
+  weight: ["400", "500"],
+  variable: '--font-geist-mono',
+  display: 'swap',
+})
+
+const vollkorn = Vollkorn({
+  subsets: ['latin'],
+  weight: ["400", "500", "600"],
+  variable: '--font-vollkorn',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "ABBI - Personalized Skincare",
   description: "Discover the future of personalized skincare with AI-powered skin analysis",
-  generator: "v0.app",
   icons: {
     icon: [
       {
@@ -36,6 +50,7 @@ export const metadata: Metadata = {
     ],
     apple: "/apple-icon.png",
   },
+    generator: 'v0.app'
 }
 
 export default function RootLayout({
@@ -44,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${_geist.variable} ${_geistMono.variable} ${_vollkorn.variable}`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${vollkorn.variable}`}>
       <body className="font-sans antialiased">
         <ScrollToTop />
         {children}

@@ -2,8 +2,6 @@
 
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
 import {
   Breadcrumb,
   BreadcrumbList,
@@ -12,19 +10,12 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuCheckboxItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { GlobalNav } from "@/components/global-nav"
 import { ProductCard } from "@/components/product-card"
 import { getCategoryBySlug, getProductsByCategory } from "@/lib/product-data"
 
 export default function CategoryClientPage({ params }: { params: { category: string } }) {
   const category = getCategoryBySlug(params.category)
-  const [showUnavailable, setShowUnavailable] = useState(false)
 
   if (!category) {
     notFound()
@@ -56,26 +47,25 @@ export default function CategoryClientPage({ params }: { params: { category: str
           </BreadcrumbList>
         </Breadcrumb>
 
-        <div className="flex items-center justify-between mb-6">
+        <div className="mb-6">
           <h1 className="text-3xl font-bold">{category.name}</h1>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">Filter</Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuCheckboxItem checked={showUnavailable} onCheckedChange={setShowUnavailable}>
-                Show unavailable products
-              </DropdownMenuCheckboxItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {category.description && (
+            <p className="text-muted-foreground mt-2">{category.description}</p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products
-            .filter((product) => showUnavailable || product.available)
-            .map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          {products.map((product) => (
+            <ProductCard
+              key={product.id}
+              title={product.name}
+              price={product.price}
+              href={`/shop/${category.slug}/${product.slug}`}
+              traits={product.traits}
+              image={product.image}
+              badge={product.recommended ? "Recommended" : undefined}
+            />
+          ))}
         </div>
       </main>
     </>
