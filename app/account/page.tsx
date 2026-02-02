@@ -1203,25 +1203,7 @@ export default function AccountPage() {
                   </Sheet>
                 }
               />
-                            </div>
-                            <div className="flex-1">
-                              <p className="text-sm font-normal mb-1">Teen Gentle Cleanser</p>
-                              <div className="flex gap-1 flex-wrap">
-                                <Badge variant="outline" className="text-xs">
-                                  Sensitivity
-                                </Badge>
-                                <Badge variant="outline" className="text-xs">
-                                  Acne
-                                </Badge>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-
+              <div className="grid md:grid-cols-2 gap-4">
                 <Card>
                   <CardContent className="p-6 text-center">
                     <svg
