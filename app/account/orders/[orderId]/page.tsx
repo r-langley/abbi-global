@@ -125,20 +125,7 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
                 </div>
               </div>
 
-              <div className="flex gap-8 pt-4 border-t">
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">Total</p>
-                  <p className="text-xl font-medium">${order.total.toFixed(2)}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">PV</p>
-                  <p className="text-xl font-medium">{order.pv}</p>
-                </div>
-                <div>
-                  <p className="text-xs text-muted-foreground mb-1">CV</p>
-                  <p className="text-xl font-medium">{order.cv}</p>
-                </div>
-              </div>
+              
             </div>
           </div>
 
