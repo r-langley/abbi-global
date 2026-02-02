@@ -15,6 +15,10 @@ import { GlobalNav } from "@/components/global-nav"
 import { ProductCard } from "@/components/product-card"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { productData } from "@/lib/product-data"
+import { SectionHeader } from "@/components/account/section-header"
+import { InfoCard } from "@/components/account/info-card"
+import { OrderCard } from "@/components/account/order-card"
+import { SubscriptionsTable, type Subscription } from "@/components/account/subscriptions-table"
 
 export default function AccountPage() {
   const [isChatOpen, setIsChatOpen] = useState(false)
@@ -27,6 +31,159 @@ export default function AccountPage() {
 
   const isAmbassador = true
   const viewingAsFamilyMember = "Emily Miller"
+
+  const subscriptions: Subscription[] = [
+    {
+      id: "31355011399",
+      contractId: "31355011399",
+      customer: "yossi pardo",
+      product: "Thirst Aid Kit",
+      price: 0.0,
+      deliveryFrequency: "Delivered every two weeks",
+      status: "cancelled",
+    },
+    {
+      id: "34488942919",
+      contractId: "34488942919",
+      customer: "yossi pardo",
+      product: "Thirst Aid Kit",
+      price: 0.0,
+      deliveryFrequency: "AUTOSHIP 30days",
+      status: "cancelled",
+    },
+    {
+      id: "34489270599",
+      contractId: "34489270599",
+      customer: "yossi pardo",
+      product: "Thirst Aid Kit",
+      price: 0.0,
+      deliveryFrequency: "AUTOSHIP 30days",
+      status: "active",
+    },
+    {
+      id: "34520858951",
+      contractId: "34520858951",
+      customer: "yossi pardo",
+      product: "Thirst Aid Kit",
+      price: 0.0,
+      deliveryFrequency: "AUTOSHIP 30days",
+      status: "active",
+    },
+    {
+      id: "34521284935",
+      contractId: "34521284935",
+      customer: "yossi pardo",
+      product: "Thirst Aid Kit",
+      price: 0.0,
+      deliveryFrequency: "AUTOSHIP 30days",
+      status: "active",
+    },
+  ]
+
+  const allOrders = [
+    {
+      orderId: "PENDING-2023-1256",
+      orderNumber: "#PENDING-2023-1256",
+      status: "Awaiting Payment",
+      statusVariant: "outline" as const,
+      items: [
+        {
+          name: "Custom Formula",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 1,
+          price: 89.0,
+        },
+        {
+          name: "Nourishing Serum",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 1,
+          price: 52.0,
+        },
+      ],
+      total: 141.0,
+      message: "Review and confirm this order to proceed with payment",
+      isHighlighted: true,
+      createdBy: "Emily Miller (Ambassador)",
+    },
+    {
+      orderId: "PENDING-2023-1257",
+      orderNumber: "#PENDING-2023-1257",
+      status: "Awaiting Payment",
+      statusVariant: "outline" as const,
+      items: [
+        {
+          name: "Daily Moisturizer",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 2,
+          price: 68.0,
+        },
+      ],
+      total: 68.0,
+      message: "Review and confirm this order to proceed with payment",
+      isHighlighted: true,
+      createdBy: "Emily Miller (Ambassador)",
+    },
+    {
+      orderId: "GC-2023-1256",
+      orderNumber: "#GC-2023-1256",
+      date: "December 20, 2023",
+      status: "In Production",
+      statusVariant: "outline" as const,
+      items: [
+        {
+          name: "Gentle Cleanser",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 1,
+          price: 17.89,
+        },
+        {
+          name: "Hyaluronic Serum",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 2,
+          price: 34.0,
+        },
+        {
+          name: "Night Cream",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 1,
+          price: 45.0,
+        },
+        {
+          name: "Vitamin C Concentrate",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 1,
+          price: 28.0,
+        },
+      ],
+      total: 124.89,
+      message: "Tracking will be available once your order ships",
+      showProgress: true,
+      progressPercentage: 20,
+      progressStages: ["Ordered", "In Production", "Shipped", "In Transit", "Delivered"],
+      currentStage: 0,
+    },
+    {
+      orderId: "CF-2023-1245",
+      orderNumber: "#CF-2023-1245",
+      date: "December 18, 2023",
+      status: "Shipped",
+      statusVariant: "default" as const,
+      items: [
+        {
+          name: "Custom Formula",
+          image: "/minimalist-cosmetic-pump-bottle-cream.jpg",
+          quantity: 1,
+          price: 89.0,
+        },
+      ],
+      total: 89.0,
+      message: "Your order is on the way",
+      showProgress: true,
+      progressPercentage: 60,
+      progressStages: ["Ordered", "In Production", "Shipped", "In Transit", "Delivered"],
+      currentStage: 2,
+    },
+  ]
 
   const routineProducts = {
     morning: [
@@ -276,105 +433,95 @@ export default function AccountPage() {
 
           <div className="space-y-12">
             <section>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-normal">Account Information</h2>
-                <Sheet open={isEditingProfile} onOpenChange={setIsEditingProfile}>
-                  <SheetTrigger asChild>
-                    <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent">
-                      Edit Details
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-                    <SheetHeader className="px-6">
-                      <SheetTitle>Edit Account Information</SheetTitle>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6 px-6">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="age" className="text-sm font-mono">
-                            Age
-                          </Label>
-                          <Input id="age" type="number" defaultValue="32" />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="gender" className="text-sm font-mono">
-                            Gender
-                          </Label>
-                          <Input id="gender" defaultValue="Female" />
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="email" className="text-sm font-mono">
-                          Email Address
-                        </Label>
-                        <Input id="email" type="email" defaultValue="sarah.miller@example.com" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="mobile" className="text-sm font-mono">
-                          Mobile Number
-                        </Label>
-                        <Input id="mobile" type="tel" defaultValue="+1 (555) 123-4567" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="address" className="text-sm font-mono">
-                          Home Address
-                        </Label>
-                        <Input id="address" defaultValue="123 Main St" className="mb-2" />
-                        <Input id="city" defaultValue="San Francisco" className="mb-2" />
-                        <div className="grid grid-cols-2 gap-2">
-                          <Input id="state" defaultValue="CA" />
-                          <Input id="zip" defaultValue="94102" />
-                        </div>
-                      </div>
-                      <div className="space-y-3">
-                        <Label className="text-sm font-mono">Shipping Address</Label>
-                        <div className="flex items-center gap-2">
-                          <Checkbox
-                            id="sameAddress"
-                            checked={sameAsHome}
-                            onCheckedChange={(checked) => setSameAsHome(checked as boolean)}
-                          />
-                          <Label htmlFor="sameAddress" className="text-sm cursor-pointer font-normal">
-                            Same as home address
-                          </Label>
-                        </div>
-                        {!sameAsHome && (
-                          <div className="space-y-2 pt-2">
-                            <Input placeholder="Street Address" />
-                            <Input placeholder="City" />
-                            <div className="grid grid-cols-2 gap-2">
-                              <Input placeholder="State" />
-                              <Input placeholder="ZIP Code" />
-                            </div>
+              <SectionHeader
+                title="Account Information"
+                action={
+                  <Sheet open={isEditingProfile} onOpenChange={setIsEditingProfile}>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent">
+                        Edit Details
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+                      <SheetHeader className="px-6">
+                        <SheetTitle>Edit Account Information</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-6 space-y-6 px-6">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="age" className="text-sm font-mono">
+                              Age
+                            </Label>
+                            <Input id="age" type="number" defaultValue="32" />
                           </div>
-                        )}
+                          <div className="space-y-2">
+                            <Label htmlFor="gender" className="text-sm font-mono">
+                              Gender
+                            </Label>
+                            <Input id="gender" defaultValue="Female" />
+                          </div>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email" className="text-sm font-mono">
+                            Email Address
+                          </Label>
+                          <Input id="email" type="email" defaultValue="sarah.miller@example.com" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="mobile" className="text-sm font-mono">
+                            Mobile Number
+                          </Label>
+                          <Input id="mobile" type="tel" defaultValue="+1 (555) 123-4567" />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="address" className="text-sm font-mono">
+                            Home Address
+                          </Label>
+                          <Input id="address" defaultValue="123 Main St" className="mb-2" />
+                          <Input id="city" defaultValue="San Francisco" className="mb-2" />
+                          <div className="grid grid-cols-2 gap-2">
+                            <Input id="state" defaultValue="CA" />
+                            <Input id="zip" defaultValue="94102" />
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <Label className="text-sm font-mono">Shipping Address</Label>
+                          <div className="flex items-center gap-2">
+                            <Checkbox
+                              id="sameAddress"
+                              checked={sameAsHome}
+                              onCheckedChange={(checked) => setSameAsHome(checked as boolean)}
+                            />
+                            <Label htmlFor="sameAddress" className="text-sm cursor-pointer font-normal">
+                              Same as home address
+                            </Label>
+                          </div>
+                          {!sameAsHome && (
+                            <div className="space-y-2 pt-2">
+                              <Input placeholder="Street Address" />
+                              <Input placeholder="City" />
+                              <div className="grid grid-cols-2 gap-2">
+                                <Input placeholder="State" />
+                                <Input placeholder="ZIP Code" />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        <Button className="w-full font-mono text-xs">Save Changes</Button>
                       </div>
-                      <Button className="w-full font-mono text-xs">Save Changes</Button>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
+                    </SheetContent>
+                  </Sheet>
+                }
+              />
               <div className="grid md:grid-cols-2 gap-4">
-                <Card>
-                  <CardContent className="p-6 space-y-3">
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Age</span>
-                      <span className="text-sm">32</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Gender</span>
-                      <span className="text-sm">Female</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Email</span>
-                      <span className="text-sm">sarah.miller@example.com</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-sm text-muted-foreground">Mobile</span>
-                      <span className="text-sm">+1 (555) 123-4567</span>
-                    </div>
-                  </CardContent>
-                </Card>
+                <InfoCard
+                  fields={[
+                    { label: "Age", value: "32" },
+                    { label: "Gender", value: "Female" },
+                    { label: "Email", value: "sarah.miller@example.com" },
+                    { label: "Mobile", value: "+1 (555) 123-4567" },
+                  ]}
+                />
                 <Card>
                   <CardContent className="p-6 space-y-3">
                     <div>
@@ -395,7 +542,7 @@ export default function AccountPage() {
             </section>
 
             <section>
-              <h2 className="text-2xl font-normal mb-6">My Ambassador</h2>
+              <SectionHeader title="My Ambassador" />
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center gap-4">
@@ -417,7 +564,7 @@ export default function AccountPage() {
 
             {/* Skin Scan History */}
             <section>
-              <h2 className="text-2xl font-normal mb-6">Skin Scan History</h2>
+              <SectionHeader title="Skin Scan History" />
               <div className="grid md:grid-cols-3 gap-4">
                 <Sheet>
                   <SheetTrigger asChild>
@@ -763,394 +910,32 @@ export default function AccountPage() {
               </div>
             </section>
 
-            {/* Awaiting Confirmation */}
-            <section className="mb-12">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-normal">Awaiting Confirmation</h2>
-                <Badge variant="outline" className="font-mono text-xs">2 Awaiting</Badge>
-              </div>
-              <div className="space-y-8">
-                <Link href="/account/orders/PENDING-2023-1258" className="block">
-                  <Card className="cursor-pointer hover:shadow-md transition-shadow border-primary/30">
-                    <CardContent className="p-6">
-                      <div className="mb-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <p className="text-2xl font-normal">#PENDING-2023-1258</p>
-                            <p className="text-sm text-muted-foreground">Created by Emily Miller (Ambassador)</p>
-                          </div>
-                          <Badge variant="outline" className="text-muted-foreground">Awaiting Payment</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Review and confirm this order to proceed with payment
-                        </p>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Custom Formula"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <p className="font-normal mb-1">Custom Formula</p>
-                                <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
-                              </div>
-                              <span className="text-sm font-medium">$89.00</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Nourishing Serum"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <p className="font-normal mb-1">Nourishing Serum</p>
-                                <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
-                              </div>
-                              <span className="text-sm font-medium">$52.00</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Total (2 items)</span>
-                        <span className="text-lg font-medium">$141.00</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Link href="/account/orders/PENDING-2023-1257" className="block">
-                  <Card className="cursor-pointer hover:shadow-md transition-shadow border-primary/30">
-                    <CardContent className="p-6">
-                      <div className="mb-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <p className="text-2xl font-normal">#PENDING-2023-1257</p>
-                            <p className="text-sm text-muted-foreground">Created by Emily Miller (Ambassador)</p>
-                          </div>
-                          <Badge variant="outline" className="text-muted-foreground">Awaiting Payment</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-4">
-                          Review and confirm this order to proceed with payment
-                        </p>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Daily Moisturizer"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <p className="font-normal mb-1">Daily Moisturizer</p>
-                                <p className="text-xs text-muted-foreground font-mono">Qty: 2</p>
-                              </div>
-                              <span className="text-sm font-medium">$68.00</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Total (2 items)</span>
-                        <span className="text-lg font-medium">$68.00</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
+            {/* Orders */}
+            <section>
+              <SectionHeader
+                title="Orders"
+                action={
+                  <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent" asChild>
+                    <Link href="/account/orders">View All</Link>
+                  </Button>
+                }
+              />
+              <div className="space-y-4">
+                {allOrders.slice(0, 3).map((order) => (
+                  <OrderCard key={order.orderId} {...order} />
+                ))}
               </div>
             </section>
 
-            {/* Orders & Subscriptions */}
+            {/* Subscriptions */}
             <section>
-              <h2 className="text-2xl font-normal mb-6">Active Orders</h2>
-              <div className="space-y-8">
-                <Link href="/account/orders/GC-2023-1256" className="block">
-                  <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="mb-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <p className="text-2xl font-normal">#GC-2023-1256</p>
-                            <p className="text-sm text-muted-foreground">December 20, 2023</p>
-                          </div>
-                        </div>
-                          <p className="text-sm text-muted-foreground mb-4">
-                            Tracking will be available once your order ships
-                          </p>
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-xs">
-                              <span className="font-medium">Ordered</span>
-                              <span className="text-muted-foreground">In Production</span>
-                              <span className="text-muted-foreground">Shipped</span>
-                              <span className="text-muted-foreground">In Transit</span>
-                              <span className="text-muted-foreground">Delivered</span>
-                            </div>
-                            <div className="relative h-2 bg-muted rounded-full overflow-hidden">
-                              <div
-                                className="absolute h-full bg-primary transition-all duration-300"
-                                style={{ width: "20%" }}
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
-                          <div className="flex gap-4">
-                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                              <Image
-                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                                alt="Gentle Cleanser"
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex justify-between items-start mb-3">
-                                <div>
-                                  <p className="font-normal mb-1">Gentle Cleanser</p>
-                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
-                                </div>
-                                <span className="text-sm font-medium">$17.89</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="flex gap-4">
-                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                              <Image
-                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                                alt="Hyaluronic Serum"
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex justify-between items-start mb-3">
-                                <div>
-                                  <p className="font-normal mb-1">Hyaluronic Serum</p>
-                                  <p className="text-xs text-muted-foreground font-mono">Qty: 2</p>
-                                </div>
-                                <span className="text-sm font-medium">$34.00</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="flex gap-4">
-                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                              <Image
-                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                                alt="Night Cream"
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex justify-between items-start mb-3">
-                                <div>
-                                  <p className="font-normal mb-1">Night Cream</p>
-                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
-                                </div>
-                                <span className="text-sm font-medium">$45.00</span>
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="flex gap-4">
-                            <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                              <Image
-                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                                alt="Vitamin C Concentrate"
-                                fill
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <div className="flex justify-between items-start mb-3">
-                                <div>
-                                  <p className="font-normal mb-1">Vitamin C Concentrate</p>
-                                  <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
-                                </div>
-                                <span className="text-sm font-medium">$28.00</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mt-4 pt-4 border-t flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">Total (4 items)</span>
-                          <span className="text-lg font-medium">$124.89</span>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-
-                <Link href="/account/orders/CF-2023-1245" className="block">
-                  <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                    <CardContent className="p-6">
-                      <div className="mb-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <p className="text-2xl font-normal">#CF-2023-1245</p>
-                            <p className="text-sm text-muted-foreground">December 18, 2023</p>
-                          </div>
-                          <Badge className="bg-primary text-primary-foreground">Shipped</Badge>
-                        </div>
-                        <p className="text-sm text-muted-foreground mb-4">Your order is on the way</p>
-                        <div className="space-y-2">
-                          <div className="flex justify-between text-xs">
-                            <span className="text-muted-foreground">Ordered</span>
-                            <span className="text-muted-foreground">In Production</span>
-                            <span className="font-medium">Shipped</span>
-                            <span className="text-muted-foreground">In Transit</span>
-                            <span className="text-muted-foreground">Delivered</span>
-                          </div>
-                          <div className="relative h-2 bg-muted rounded-full overflow-hidden">
-                            <div
-                              className="absolute h-full bg-primary transition-all duration-300"
-                              style={{ width: "60%" }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Custom Formula"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start mb-3">
-                              <div>
-                                <p className="font-normal mb-1">Custom Formula</p>
-                                <p className="text-xs text-muted-foreground font-mono">Qty: 1</p>
-                              </div>
-                              <span className="text-sm font-medium">$89.00</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="mt-4 pt-4 border-t flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Total (1 item)</span>
-                        <span className="text-lg font-medium">$89.00</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Card className="cursor-pointer hover:shadow-md transition-shadow bg-primary/5 border-primary/20">
-                      <CardContent className="p-6">
-                        <div className="flex gap-4 mb-4">
-                          <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Hyaluronic Acid Serum"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start">
-                              <div>
-                                <div className="flex items-center gap-2 mb-1">
-                                  <p className="font-normal">Hyaluronic Acid Serum</p>
-                                  <Badge className="bg-primary text-primary-foreground h-5 px-2 text-xs">
-                                    <svg className="w-3 h-3 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-                                      <path d="M21 3v5h-5" />
-                                    </svg>
-                                    Subscription
-                                  </Badge>
-                                </div>
-                                <p className="text-sm text-muted-foreground">Delivered every 60 days</p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <p className="text-sm text-muted-foreground">Tap to view subscription details</p>
-                      </CardContent>
-                    </Card>
-                  </SheetTrigger>
-                  <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-                    <SheetHeader className="px-6">
-                      <SheetTitle>Subscription Details</SheetTitle>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6 px-6">
-                      <div>
-                        <h3 className="font-normal mb-4">Product</h3>
-                        <div className="flex gap-4 mb-4">
-                          <div className="w-24 h-24 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
-                            <Image
-                              src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                              alt="Hyaluronic Acid Serum"
-                              fill
-                              className="object-cover"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <p className="font-normal mb-2">Hyaluronic Acid Serum</p>
-                            <div className="flex gap-2 mb-2">
-                              <Badge variant="outline">Hydration</Badge>
-                              <Badge variant="outline">Wrinkles</Badge>
-                            </div>
-                            <p className="text-sm font-medium">$34.00</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="pt-4 border-t space-y-3">
-                        <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">Frequency</span>
-                          <span className="text-sm">Every 60 days</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">Next Delivery</span>
-                          <span className="text-sm">January 15, 2024</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-sm text-muted-foreground">Price</span>
-                          <span className="text-sm font-medium">$34.00</span>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button variant="outline" className="flex-1 font-mono text-xs bg-transparent">
-                          Skip Next
-                        </Button>
-                        <Button variant="outline" className="flex-1 font-mono text-xs bg-transparent">
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
+              <SectionHeader title="ABBI Autoship / Subscriptions" />
+              <SubscriptionsTable subscriptions={subscriptions} />
             </section>
 
             {/* Favorites */}
             <section>
-              <h2 className="text-2xl font-normal mb-2">My Favorite Products</h2>
-              <p className="text-sm text-muted-foreground mb-6">Quick access to your most-loved items</p>
+              <SectionHeader title="My Favorite Products" description="Quick access to your most-loved items" />
               <Carousel opts={{ align: "start" }} className="w-full">
                 <CarouselContent>
                   <CarouselItem className="md:basis-1/2 lg:basis-1/3">
@@ -1191,10 +976,10 @@ export default function AccountPage() {
 
             {/* My ABBI Routine */}
             <section>
-              <h2 className="text-2xl font-normal mb-2">My ABBI Routine</h2>
-              <p className="text-sm text-muted-foreground mb-6">
-                Your personalized skincare prescription based on your latest skin analysis
-              </p>
+              <SectionHeader
+                title="My ABBI Routine"
+                description="Your personalized skincare prescription based on your latest skin analysis"
+              />
 
               <div className="space-y-8">
                 {/* Morning Routine */}
@@ -1325,7 +1110,7 @@ export default function AccountPage() {
 
             {/* Current Promotions */}
             <section>
-              <h2 className="text-2xl font-normal mb-6">Current Promotions</h2>
+              <SectionHeader title="Current Promotions" />
               <div className="space-y-4">
                 <Card>
                   <CardContent className="p-6">
@@ -1366,134 +1151,58 @@ export default function AccountPage() {
             </section>
 
             <section>
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-normal">Family Members</h2>
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent">
-                      Add Family Member
-                    </Button>
-                  </SheetTrigger>
-                  <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-                    <SheetHeader className="px-6">
-                      <SheetTitle>Add Family Member</SheetTitle>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-4 px-6">
-                      <div className="space-y-2">
-                        <Label htmlFor="fullName" className="text-sm font-mono">
-                          Full Name
-                        </Label>
-                        <Input id="fullName" placeholder="Enter full name" />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
+              <SectionHeader
+                title="Family Members"
+                action={
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent">
+                        Add Family Member
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
+                      <SheetHeader className="px-6">
+                        <SheetTitle>Add Family Member</SheetTitle>
+                      </SheetHeader>
+                      <div className="mt-6 space-y-4 px-6">
                         <div className="space-y-2">
-                          <Label htmlFor="familyAge" className="text-sm font-mono">
-                            Age
+                          <Label htmlFor="fullName" className="text-sm font-mono">
+                            Full Name
                           </Label>
-                          <Input id="familyAge" type="number" placeholder="Age" />
+                          <Input id="fullName" placeholder="Enter full name" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="familyAge" className="text-sm font-mono">
+                              Age
+                            </Label>
+                            <Input id="familyAge" type="number" placeholder="Age" />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="familyGender" className="text-sm font-mono">
+                              Gender
+                            </Label>
+                            <Input id="familyGender" placeholder="Gender" />
+                          </div>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="familyGender" className="text-sm font-mono">
-                            Gender
+                          <Label htmlFor="familyEmail" className="text-sm font-mono">
+                            Email Address
                           </Label>
-                          <Input id="familyGender" placeholder="Gender" />
+                          <Input id="familyEmail" type="email" placeholder="email@example.com" />
                         </div>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="familyEmail" className="text-sm font-mono">
-                          Email Address
-                        </Label>
-                        <Input id="familyEmail" type="email" placeholder="email@example.com" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="familyMobile" className="text-sm font-mono">
-                          Mobile Number
-                        </Label>
-                        <Input id="familyMobile" type="tel" placeholder="+1 (555) 000-0000" />
-                      </div>
-                      <Button className="w-full font-mono text-xs">Add Family Member</Button>
-                    </div>
-                  </SheetContent>
-                </Sheet>
-              </div>
-              <div className="space-y-4">
-                <Sheet>
-                  <SheetTrigger asChild>
-                    <Card className="cursor-pointer hover:shadow-md transition-shadow">
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
-                            <span className="text-lg font-normal">EM</span>
-                          </div>
-                          <div className="flex-1">
-                            <p className="font-normal mb-1">Emily Miller</p>
-                            <p className="text-sm text-muted-foreground">Daughter • Age 16</p>
-                          </div>
-                          <svg
-                            className="w-5 h-5 text-muted-foreground"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+                        <div className="space-y-2">
+                          <Label htmlFor="familyMobile" className="text-sm font-mono">
+                            Mobile Number
+                          </Label>
+                          <Input id="familyMobile" type="tel" placeholder="+1 (555) 000-0000" />
                         </div>
-                      </CardContent>
-                    </Card>
-                  </SheetTrigger>
-                  <SheetContent className="w-full sm:max-w-lg overflow-y-auto">
-                    <SheetHeader className="px-6">
-                      <SheetTitle>Emily Miller's Profile</SheetTitle>
-                    </SheetHeader>
-                    <div className="mt-6 space-y-6 px-6">
-                      <Card>
-                        <CardContent className="p-4 space-y-3">
-                          <div className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">Age</span>
-                            <span className="text-sm">16</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">Gender</span>
-                            <span className="text-sm">Female</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">Email</span>
-                            <span className="text-sm">emily.miller@example.com</span>
-                          </div>
-                          <div className="flex justify-between">
-                            <span className="text-sm text-muted-foreground">Mobile</span>
-                            <span className="text-sm">+1 (555) 987-6543</span>
-                          </div>
-                        </CardContent>
-                      </Card>
-                      <div>
-                        <h3 className="font-normal mb-4">Scan History</h3>
-                        <div className="space-y-3">
-                          <Card>
-                            <CardContent className="p-4">
-                              <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm">November 28, 2023</span>
-                                <Badge variant="outline">Latest</Badge>
-                              </div>
-                              <div className="flex items-baseline gap-1">
-                                <span className="text-2xl font-normal">7.5</span>
-                                <span className="text-muted-foreground">/ 10</span>
-                              </div>
-                            </CardContent>
-                          </Card>
-                        </div>
+                        <Button className="w-full font-mono text-xs">Add Family Member</Button>
                       </div>
-                      <div>
-                        <h3 className="font-normal mb-4">Products</h3>
-                        <div className="space-y-3">
-                          <div className="flex gap-3">
-                            <div className="w-16 h-16 bg-muted rounded-lg relative overflow-hidden flex-shrink-0">
-                              <Image
-                                src="/minimalist-cosmetic-pump-bottle-cream.jpg"
-                                alt="Teen Gentle Cleanser"
-                                fill
-                                className="object-cover"
-                              />
+                    </SheetContent>
+                  </Sheet>
+                }
+              />
                             </div>
                             <div className="flex-1">
                               <p className="text-sm font-normal mb-1">Teen Gentle Cleanser</p>
