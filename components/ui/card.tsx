@@ -7,7 +7,7 @@ const Card = React.memo(function Card({ className, ...props }: React.ComponentPr
     <div
       data-slot="card"
       className={cn(
-        'bg-card text-card-foreground flex flex-col rounded-xl border shadow-sm py-0 gap-0',
+        'bg-card text-card-foreground flex flex-col rounded-xl border shadow-sm py-0 gap-0 border-none',
         className,
       )}
       {...props}
@@ -75,7 +75,7 @@ const CardContent = React.memo(function CardContent({ className, ...props }: Rea
   return (
     <div
       data-slot="card-content"
-      className={cn('px-4 py-4', className)}
+      className={cn('px-4 py-4 border-none', className)}
       {...props}
     />
   )
