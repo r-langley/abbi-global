@@ -756,7 +756,7 @@ export default function AccountPage() {
                     </div>
                     <div className="space-y-4">
                       {routineProducts.morning.map((item) => (
-                        <div key={item.step} className="flex gap-3">
+                        <div key={item.step} className="flex gap-3 flex-row">
                           <div className="w-14 h-14 bg-muted rounded-lg relative overflow-hidden flex-shrink-0">
                             <Image
                               src="/minimalist-cosmetic-pump-bottle-cream.jpg"
@@ -766,13 +766,13 @@ export default function AccountPage() {
                             />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-0.5">
+                            <div className="flex gap-2 mb-0.5 items-start flex-row">
                               <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs">
                                 {item.step}
                               </span>
-                              <h4 className="font-normal text-sm truncate">{item.product.name}</h4>
+                              <h4 className="font-normal truncate text-base">{item.product.name}</h4>
                             </div>
-                            <p className="text-xs text-muted-foreground line-clamp-2">{item.advice}</p>
+                            <p className="text-muted-foreground line-clamp-2 text-sm">{item.advice}</p>
                           </div>
                         </div>
                       ))}
