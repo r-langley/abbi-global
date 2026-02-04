@@ -2,6 +2,8 @@ import Link from "next/link"
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Pencil } from "lucide-react"
 
 export interface Subscription {
   id: string
@@ -31,6 +33,7 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
                 <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Delivery Frequency</th>
                 <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Next Order</th>
                 <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Status</th>
+                <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -96,6 +99,21 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
                         {subscription.status}
                       </Badge>
                     </Link>
+                  </td>
+                  <td className="py-0">
+                    <div className="py-3 px-4">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="h-8 px-2"
+                      >
+                        <Link href={`/account/subscriptions/${subscription.id}`}>
+                          <Pencil className="h-4 w-4" />
+                          <span className="ml-2">Edit</span>
+                        </Link>
+                      </Button>
+                    </div>
                   </td>
                 </tr>
               ))}
