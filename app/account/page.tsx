@@ -334,15 +334,8 @@ export default function AccountPage() {
                     </div>
                     <div className="flex items-center gap-2 flex-wrap text-sm text-muted-foreground">
                       <span>32, Female</span>
-                      <span className="text-border">|</span>
-                      <span>sarah.miller@example.com</span>
-                      <span className="text-border">|</span>
-                      <span>+1 (555) 123-4567</span>
                     </div>
                     <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="outline" className="font-mono text-xs">
-                        #ABBI-2023-1156
-                      </Badge>
                       {viewingAsFamilyMember && (
                         <Badge variant="outline" className="text-xs gap-1.5 pl-1.5">
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -399,6 +392,12 @@ export default function AccountPage() {
                         <SheetTitle>Edit Account Information</SheetTitle>
                       </SheetHeader>
                       <div className="mt-6 space-y-6 px-6">
+                        <div className="space-y-2">
+                          <Label className="text-sm font-mono text-muted-foreground">
+                            ABBI User ID
+                          </Label>
+                          <div className="font-mono text-sm">#ABBI-2023-1156</div>
+                        </div>
                         <div className="grid grid-cols-2 gap-4">
                           <div className="space-y-2">
                             <Label htmlFor="age" className="text-sm font-mono">
