@@ -21,6 +21,13 @@ interface SubscriptionsTableProps {
 }
 
 export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
+  // Sort subscriptions: active first, then cancelled
+  const sortedSubscriptions = [...subscriptions].sort((a, b) => {
+    if (a.status === "active" && b.status === "cancelled") return -1
+    if (a.status === "cancelled" && b.status === "active") return 1
+    return 0
+  })
+
   return (
     <Card>
       <CardContent className="p-0">
@@ -37,7 +44,7 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
               </tr>
             </thead>
             <tbody>
-              {subscriptions.map((subscription) => (
+              {sortedSubscriptions.map((subscription) => (
                 <tr key={subscription.id} className="border-b last:border-0">
                   <td className="py-0">
                     <Link
