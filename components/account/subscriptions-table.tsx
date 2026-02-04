@@ -45,11 +45,11 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
             </thead>
             <tbody>
               {sortedSubscriptions.map((subscription) => (
-                <tr key={subscription.id} className="border-b last:border-0">
-                  <td className="py-0">
+                <tr key={subscription.id} className="border-b last:border-0 hover:bg-muted/50 transition-colors">
+                  <td className="py-3 px-4">
                     <Link
                       href={`/account/subscriptions/${subscription.id}`}
-                      className="flex items-center gap-3 py-3 px-4 hover:bg-muted/50 transition-colors"
+                      className="flex items-center gap-3"
                     >
                       <div className="relative w-10 h-10 rounded-md overflow-hidden bg-muted flex-shrink-0">
                         <Image
@@ -62,26 +62,26 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
                       <span className="text-sm">{subscription.product}</span>
                     </Link>
                   </td>
-                  <td className="py-0">
+                  <td className="py-3 px-4">
                     <Link
                       href={`/account/subscriptions/${subscription.id}`}
-                      className="block py-3 px-4 hover:bg-muted/50 transition-colors"
+                      className="block"
                     >
                       <span className="text-sm">${subscription.price.toFixed(2)}</span>
                     </Link>
                   </td>
-                  <td className="py-0">
+                  <td className="py-3 px-4">
                     <Link
                       href={`/account/subscriptions/${subscription.id}`}
-                      className="block py-3 px-4 hover:bg-muted/50 transition-colors"
+                      className="block"
                     >
                       <span className="text-sm">{subscription.deliveryFrequency}</span>
                     </Link>
                   </td>
-                  <td className="py-0">
+                  <td className="py-3 px-4">
                     <Link
                       href={`/account/subscriptions/${subscription.id}`}
-                      className="block py-3 px-4 hover:bg-muted/50 transition-colors"
+                      className="block"
                     >
                       <span className="text-sm text-muted-foreground">
                         {subscription.status === "active" && subscription.nextOrderDate
@@ -90,10 +90,10 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
                       </span>
                     </Link>
                   </td>
-                  <td className="py-0">
+                  <td className="py-3 px-4">
                     <Link
                       href={`/account/subscriptions/${subscription.id}`}
-                      className="block py-3 px-4 hover:bg-muted/50 transition-colors"
+                      className="block"
                     >
                       <Badge
                         variant={subscription.status === "active" ? "default" : "secondary"}
@@ -107,20 +107,18 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
                       </Badge>
                     </Link>
                   </td>
-                  <td className="py-0">
-                    <div className="py-3 px-4">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        asChild
-                        className="h-8 px-2"
-                      >
-                        <Link href={`/account/subscriptions/${subscription.id}`}>
-                          <Pencil className="h-4 w-4" />
-                          <span className="ml-2">Edit</span>
-                        </Link>
-                      </Button>
-                    </div>
+                  <td className="py-3 px-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      asChild
+                      className="h-8 px-2"
+                    >
+                      <Link href={`/account/subscriptions/${subscription.id}`}>
+                        <Pencil className="h-4 w-4" />
+                        <span className="ml-2">Edit</span>
+                      </Link>
+                    </Button>
                   </td>
                 </tr>
               ))}
