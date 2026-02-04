@@ -10,6 +10,7 @@ export interface Subscription {
   productImage: string
   price: number
   deliveryFrequency: string
+  nextOrderDate?: string
   status: "active" | "cancelled"
 }
 
@@ -26,9 +27,9 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
             <thead>
               <tr className="border-b text-left">
                 <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Product</th>
-                <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Contract</th>
                 <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Price</th>
                 <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Delivery Frequency</th>
+                <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Next Order</th>
                 <th className="pb-3 pt-4 px-4 text-sm font-medium text-muted-foreground">Status</th>
               </tr>
             </thead>
@@ -56,14 +57,6 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
                       href={`/account/subscriptions/${subscription.id}`}
                       className="block py-3 px-4 hover:bg-muted/50 transition-colors"
                     >
-                      <span className="text-sm font-mono">{subscription.contractId}</span>
-                    </Link>
-                  </td>
-                  <td className="py-0">
-                    <Link
-                      href={`/account/subscriptions/${subscription.id}`}
-                      className="block py-3 px-4 hover:bg-muted/50 transition-colors"
-                    >
                       <span className="text-sm">${subscription.price.toFixed(2)}</span>
                     </Link>
                   </td>
@@ -73,6 +66,18 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
                       className="block py-3 px-4 hover:bg-muted/50 transition-colors"
                     >
                       <span className="text-sm">{subscription.deliveryFrequency}</span>
+                    </Link>
+                  </td>
+                  <td className="py-0">
+                    <Link
+                      href={`/account/subscriptions/${subscription.id}`}
+                      className="block py-3 px-4 hover:bg-muted/50 transition-colors"
+                    >
+                      <span className="text-sm text-muted-foreground">
+                        {subscription.status === "active" && subscription.nextOrderDate
+                          ? subscription.nextOrderDate
+                          : "-"}
+                      </span>
                     </Link>
                   </td>
                   <td className="py-0">

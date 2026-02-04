@@ -166,6 +166,7 @@ export const mockSubscriptions: Subscription[] = [
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
     price: 89.0,
     deliveryFrequency: 'Every 30 days',
+    nextOrderDate: 'Mar 15, 2024',
     status: 'active',
   },
   {
@@ -175,6 +176,7 @@ export const mockSubscriptions: Subscription[] = [
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
     price: 22.0,
     deliveryFrequency: 'Every 45 days',
+    nextOrderDate: 'Mar 28, 2024',
     status: 'active',
   },
   {
@@ -184,6 +186,7 @@ export const mockSubscriptions: Subscription[] = [
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
     price: 38.0,
     deliveryFrequency: 'Every 60 days',
+    nextOrderDate: 'Apr 10, 2024',
     status: 'active',
   },
 ]
