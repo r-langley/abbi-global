@@ -297,14 +297,7 @@ export default function AccountPage() {
               <Badge variant="outline" className="text-xs">{latestScan.primaryConcern}</Badge>
               <span className="text-xs text-muted-foreground">{latestScan.shortDate}</span>
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1">
-              {latestScan.metrics.slice(0, 4).map((metric) => (
-                <div key={metric.name} className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">{metric.name}</span>
-                  <span className="font-mono">{metric.value}</span>
-                </div>
-              ))}
-            </div>
+            
             <Button variant="outline" size="sm" className="w-full mt-4 font-mono text-xs bg-transparent" asChild>
               <Link href="/skin-analysis">New Scan</Link>
             </Button>
