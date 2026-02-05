@@ -165,28 +165,7 @@ export default function AccountPage() {
                   <span>32, Female</span>
                 </div>
                 {viewingAsFamilyMember && (
-                  <div className="flex items-center gap-2 mt-2">
-                    <Badge variant="outline" className="text-xs gap-1.5 pl-1.5">
-                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                      {viewingAsFamilyMember}&apos;s family
-                    </Badge>
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {isAmbassador && (
-                <Button variant="default" size="sm" className="bg-primary hover:bg-primary/90 font-mono text-xs gap-1.5" asChild>
-                  <Link href="/ambassador-dashboard" target="_blank">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    Dashboard
-                  </Link>
-                </Button>
-              )}
+                                )}
               <Sheet>
                 <SheetTrigger asChild>
                   <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent gap-1.5">
@@ -386,9 +365,7 @@ export default function AccountPage() {
           {/* Morning Routine */}
           <Card>
             <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+              <div className="flex i707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
                 <h3 className="text-lg font-normal">Morning</h3>
               </div>
