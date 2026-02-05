@@ -168,6 +168,12 @@ export const mockSubscriptions: Subscription[] = [
     deliveryFrequency: 'Every 30 days',
     nextOrderDate: 'Mar 15, 2024',
     status: 'active',
+    hasNewRecommendation: true,
+    recommendedSwap: {
+      current: 'Custom Formula - Aloe Vera',
+      suggested: 'Actif N\u00b020 - Regulation',
+      reason: 'Your latest scan shows Regulation (78) as your top concern',
+    },
   },
   {
     id: '34520858951',
