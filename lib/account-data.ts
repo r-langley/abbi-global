@@ -162,15 +162,19 @@ export const mockSubscriptions: Subscription[] = [
   {
     id: '34489270599',
     contractId: '34489270599',
-    product: 'Custom Formula - Aloe Vera',
+    product: 'Morning Routine Bundle',
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
-    price: 89.0,
+    products: [
+      { name: 'Custom Formula - Aloe Vera', image: '/minimalist-cosmetic-pump-bottle-cream.jpg', price: 89.0 },
+      { name: 'No. 1 Hydration', image: '/minimalist-cosmetic-pump-bottle-cream.jpg', price: 22.0 },
+    ],
+    price: 111.0,
     deliveryFrequency: 'Every 30 days',
     nextOrderDate: 'Mar 15, 2024',
     status: 'active',
     hasNewRecommendation: true,
     recommendedSwap: {
-      current: 'Custom Formula - Aloe Vera',
+      current: 'No. 1 Hydration',
       suggested: 'Actif N\u00b020 - Regulation',
       reason: 'Your latest scan shows Regulation (78) as your top concern',
     },
@@ -178,7 +182,7 @@ export const mockSubscriptions: Subscription[] = [
   {
     id: '34520858951',
     contractId: '34520858951',
-    product: 'No. 1 Hydration',
+    product: 'Soothing Revitalizing Oil',
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
     price: 22.0,
     deliveryFrequency: 'Every 45 days',

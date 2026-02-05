@@ -259,77 +259,112 @@ export default function AccountPage() {
         </Card>
       )}
 
-      {/* Priority Data: Skin Score, Recent Order, Next Renewal */}
+      {/* Priority Data: Skin Score, Orders, Subscriptions */}
       <div className="grid md:grid-cols-3 gap-4">
         {/* Skin Score */}
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-muted-foreground">Skin Score</p>
-              <Link href="/account/scan-history" className="text-xs text-primary hover:underline">Scan History</Link>
-            </div>
-            <div className="flex items-end gap-3 mb-3">
-              <span className="text-4xl font-normal tracking-tight">{latestScan.overallScore}</span>
-              <span className="text-sm text-muted-foreground mb-1">/ 100</span>
-            </div>
-            <div className="flex items-center gap-2 mb-3">
-              <Badge variant="outline" className="text-xs">{latestScan.primaryConcern}</Badge>
-              <span className="text-xs text-muted-foreground">{latestScan.shortDate}</span>
-            </div>
-            
-            <Button variant="outline" size="sm" className="w-full mt-4 font-mono text-xs bg-transparent" asChild>
-              <Link href="/skin-analysis">New Scan</Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Recent Order */}
-        <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-muted-foreground">Latest Order</p>
-              <Link href="/account/orders" className="text-xs text-primary hover:underline">All Orders</Link>
-            </div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-lg font-normal">{latestOrder.orderNumber}</span>
-              <Badge variant={latestOrder.statusVariant} className="text-xs">{latestOrder.status}</Badge>
-            </div>
-            <p className="text-xs text-muted-foreground mb-1">{latestOrder.date}</p>
-            <p className="text-sm">{latestOrder.itemCount} items &middot; ${latestOrder.total.toFixed(2)}</p>
-            <Button variant="outline" size="sm" className="w-full mt-4 font-mono text-xs bg-transparent" asChild>
-              <Link href={`/account/orders/${latestOrder.orderId}`}>View Order</Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Next Subscription Renewal */}
-        <Card className={nextRenewal.hasNewRecommendation ? "border-primary/30" : ""}>
-          <CardContent className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-muted-foreground">Next Renewal</p>
-              <Link href="/account/subscriptions" className="text-xs text-primary hover:underline">Subscriptions</Link>
-            </div>
-            <p className="text-lg font-normal mb-1">{nextRenewal.date}</p>
-            <p className="text-xs text-muted-foreground mb-3">{nextRenewal.daysUntil} days away &middot; {nextRenewal.products.length} products</p>
-            {nextRenewal.hasNewRecommendation && (
-              <div className="bg-primary/5 rounded-md p-3 mb-3">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <svg className="w-3.5 h-3.5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        <Link href="/account/scan-history" className="block">
+          <Card className="cursor-pointer hover:shadow-md transition-shadow h-full">
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
-                  <span className="text-xs font-medium">New recommendation</span>
+                  <p className="text-sm text-muted-foreground">Skin Score</p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Swap <span className="font-medium text-foreground">{nextRenewal.recommendedSwap.current}</span> for{" "}
-                  <span className="font-medium text-foreground">{nextRenewal.recommendedSwap.suggested}</span>
-                </p>
+                <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </div>
-            )}
-            <Button variant="outline" size="sm" className="w-full font-mono text-xs bg-transparent" asChild>
-              <Link href="/account/subscriptions">Review</Link>
-            </Button>
-          </CardContent>
-        </Card>
+              <div className="flex items-center gap-4 mb-3">
+                <div className="relative w-16 h-16">
+                  <svg className="w-16 h-16 -rotate-90" viewBox="0 0 36 36">
+                    <path
+                      className="text-muted"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      fill="none"
+                      d="M18 2.0845a15.9155 15.9155 0 010 31.831 15.9155 15.9155 0 010-31.831"
+                    />
+                    <path
+                      className="text-primary"
+                      stroke="currentColor"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      fill="none"
+                      strokeDasharray={`${latestScan.overallScore}, 100`}
+                      d="M18 2.0845a15.9155 15.9155 0 010 31.831 15.9155 15.9155 0 010-31.831"
+                    />
+                  </svg>
+                  <span className="absolute inset-0 flex items-center justify-center text-lg font-medium">{latestScan.overallScore}</span>
+                </div>
+                <div>
+                  <Badge variant="outline" className="text-xs mb-1">{latestScan.primaryConcern}</Badge>
+                  <p className="text-xs text-muted-foreground">{latestScan.shortDate}</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+
+        {/* Orders */}
+        <Link href="/account/orders" className="block">
+          <Card className="cursor-pointer hover:shadow-md transition-shadow h-full">
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                  </svg>
+                  <p className="text-sm text-muted-foreground">Orders</p>
+                </div>
+                <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-lg font-normal">{latestOrder.orderNumber}</span>
+                <Badge variant={latestOrder.statusVariant} className="text-xs">{latestOrder.status}</Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mb-1">{latestOrder.date}</p>
+              <p className="text-sm">{latestOrder.itemCount} items &middot; ${latestOrder.total.toFixed(2)}</p>
+            </CardContent>
+          </Card>
+        </Link>
+
+        {/* Subscriptions */}
+        <Link href="/account/subscriptions" className="block">
+          <Card className={`cursor-pointer hover:shadow-md transition-shadow h-full ${nextRenewal.hasNewRecommendation ? "border-primary/30" : ""}`}>
+            <CardContent className="p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  <p className="text-sm text-muted-foreground">Subscriptions</p>
+                </div>
+                <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+              <p className="text-sm font-normal mb-1">Renews {nextRenewal.date}</p>
+              <p className="text-xs text-muted-foreground mb-3">{nextRenewal.daysUntil} days away</p>
+              <div className="flex items-center gap-1.5 mb-2">
+                {nextRenewal.products.map((p, i) => (
+                  <div key={i} className="relative w-8 h-8 rounded-md overflow-hidden bg-muted flex-shrink-0">
+                    <Image src="/minimalist-cosmetic-pump-bottle-cream.jpg" alt={p.name} fill className="object-cover" />
+                  </div>
+                ))}
+                <span className="text-xs text-muted-foreground ml-1">{nextRenewal.products.length} products</span>
+              </div>
+              {nextRenewal.hasNewRecommendation && (
+                <div className="bg-primary/5 rounded-md p-2 mt-2">
+                  <p className="text-xs text-primary font-medium">New recommendation available</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </Link>
       </div>
 
       {/* My ABBI Routine */}
