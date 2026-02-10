@@ -9,8 +9,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { getMorningRoutine, getEveningRoutine, mockOrders, mockSubscriptions, mockPromotions } from "@/lib/account-data"
 import { productData } from "@/lib/product-data"
 import { SectionHeader } from "@/components/account/section-header"
-import { OrderCard } from "@/components/account/order-card"
-import { SubscriptionsTable } from "@/components/account/subscriptions-table"
+import { TopSkinTraits } from "@/components/account/top-skin-traits"
+import { getTopSkinTraits, getAllSkinTraits, mockSkinScans } from "@/lib/account-data"
 import {
   Tooltip,
   TooltipContent,
@@ -23,20 +23,10 @@ export default function AccountPage() {
     morning: getMorningRoutine(),
     evening: getEveningRoutine(),
   }
-
-  // Latest scan data
-  const latestScan = {
-    overallScore: 72,
-    primaryConcern: "Regulation",
-    shortDate: "Jan 8, 2024",
-    insights: {
-      keyIssues: [
-        { concern: "Regulation", score: 78 },
-        { concern: "Radiance", score: 44 },
-        { concern: "Hydration", score: 24 },
-      ],
-    },
-  }
+  
+  const latestScan = mockSkinScans[0]
+  const topTraits = getTopSkinTraits(latestScan)
+  const allTraits = getAllSkinTraits(latestScan)
 
   // Most recent order
   const latestOrder = {
@@ -92,9 +82,9 @@ export default function AccountPage() {
             </Card>
           )}
 
-          {/* Priority Data: Skin Score, Orders, Subscriptions */}
+          {/* Priority Data: My Skin, Orders, Subscriptions */}
           <div className="grid md:grid-cols-3 gap-4">
-            {/* Skin Score */}
+            {/* My Skin - Top 3 Traits */}
             <Card className="h-full flex flex-col">
               <CardContent className="p-5 flex flex-col flex-1">
                 <div className="flex items-center justify-between mb-4">
@@ -102,7 +92,7 @@ export default function AccountPage() {
                     <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
-                    <p className="text-sm text-muted-foreground">Skin Score</p>
+                    <p className="text-sm text-muted-foreground">My Skin</p>
                   </div>
                   <Link href="/account/scan-history">
                     <svg className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,32 +100,8 @@ export default function AccountPage() {
                     </svg>
                   </Link>
                 </div>
-                <div className="flex flex-col items-center justify-center flex-1 gap-3">
-                  <div className="relative w-20 h-20">
-                    <svg className="w-20 h-20 -rotate-90" viewBox="0 0 36 36">
-                      <path
-                        className="text-muted"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        fill="none"
-                        d="M18 2.0845a15.9155 15.9155 0 010 31.831 15.9155 15.9155 0 010-31.831"
-                      />
-                      <path
-                        className="text-primary"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        fill="none"
-                        strokeDasharray={`${latestScan.overallScore}, 100`}
-                        d="M18 2.0845a15.9155 15.9155 0 010 31.831 15.9155 15.9155 0 010-31.831"
-                      />
-                    </svg>
-                    <span className="absolute inset-0 flex items-center justify-center text-xl font-medium">{latestScan.overallScore}</span>
-                  </div>
-                  <div className="text-center">
-                    <Badge variant="outline" className="text-xs mb-1">{latestScan.primaryConcern}</Badge>
-                    <p className="text-xs text-muted-foreground">{latestScan.shortDate}</p>
-                  </div>
+                <div className="flex flex-col items-center justify-center flex-1">
+                  <TopSkinTraits traits={allTraits} scanDate={latestScan.shortDate} />
                 </div>
                 <Button size="sm" variant="outline" className="w-full mt-4 font-mono text-xs" asChild>
                   <Link href="/skin-analysis">New Scan</Link>

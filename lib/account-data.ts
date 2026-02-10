@@ -273,6 +273,13 @@ export interface SkinScanMetric {
   value: number
 }
 
+export interface SkinTrait {
+  name: string
+  score: number
+  description: string
+  color: string
+}
+
 export interface SkinScan {
   id: string
   date: string
@@ -281,6 +288,56 @@ export interface SkinScan {
   primaryConcern: string
   metrics: SkinScanMetric[]
   recommendations: { name: string; price: number }[]
+}
+
+// Color mapping for trait visualization
+const traitColorMap: Record<string, string> = {
+  'Sensitivity': 'text-purple-500',
+  'Radiance': 'text-cyan-500',
+  'Hydration': 'text-orange-400',
+  'Regulation': 'text-purple-500',
+  'Wrinkles': 'text-amber-500',
+  'Tone': 'text-blue-400',
+  'Texture': 'text-teal-400',
+}
+
+const traitDescriptions: Record<string, string> = {
+  'Sensitivity': 'In the realm of skincare, sensitivity is a characteristic where the skin reacts swiftly to various stimuli, often leading to redness or irritation.',
+  'Radiance': 'Radiance is the quality of skin that shines brightly, often a sign of good health and proper hydration.',
+  'Hydration': 'Hydration refers to skin that is adequately moisturized, resulting in a smooth and plump look.',
+  'Regulation': 'Regulation measures the skin\'s ability to maintain balance and recover from environmental stressors.',
+  'Wrinkles': 'Wrinkles indicate signs of aging where skin tends to react with irritation and discomfort to environmental factors.',
+  'Tone': 'Tone reflects the evenness and consistency of skin color across different areas.',
+  'Texture': 'Texture describes the smoothness and surface quality of the skin.',
+}
+
+export function getTopSkinTraits(scan?: SkinScan): SkinTrait[] {
+  if (!scan) {
+    scan = mockSkinScans[0]
+  }
+  
+  // Sort metrics by value (lowest scores are "top concerns")
+  const sortedMetrics = [...scan.metrics].sort((a, b) => a.value - b.value)
+  
+  return sortedMetrics.slice(0, 3).map(metric => ({
+    name: metric.name,
+    score: metric.value,
+    description: traitDescriptions[metric.name] || 'A key factor in your skin health.',
+    color: traitColorMap[metric.name] || 'text-primary',
+  }))
+}
+
+export function getAllSkinTraits(scan?: SkinScan): SkinTrait[] {
+  if (!scan) {
+    scan = mockSkinScans[0]
+  }
+  
+  return scan.metrics.map(metric => ({
+    name: metric.name,
+    score: metric.value,
+    description: traitDescriptions[metric.name] || 'A key factor in your skin health.',
+    color: traitColorMap[metric.name] || 'text-primary',
+  }))
 }
 
 export const mockSkinScans: SkinScan[] = [
