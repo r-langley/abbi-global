@@ -207,6 +207,8 @@ export interface RoutineStep {
   step: number
   advice: string
   benefits: string[]
+  owned: boolean
+  source?: 'subscription' | 'order'
 }
 
 export function getMorningRoutine(): RoutineStep[] {
@@ -216,18 +218,23 @@ export function getMorningRoutine(): RoutineStep[] {
       step: 1,
       advice: 'Massage gently in circular motions for 60 seconds to activate the cleansing foam',
       benefits: ['Removes overnight impurities', 'Preps skin for product absorption', 'Balances skin pH'],
+      owned: false,
     },
     {
       product: productData.find(p => p.slug === 'hyaluronic-acid-plumping-serum')!,
       step: 2,
       advice: 'Apply 2-3 drops while skin is still damp for maximum absorption',
       benefits: ['Plumps fine lines', 'Provides 24-hour hydration', 'Creates moisture barrier'],
+      owned: true,
+      source: 'subscription',
     },
     {
       product: productData.find(p => p.slug === 'aloe-vera-base')!,
       step: 3,
       advice: 'Apply upward motions from center of face outward, including neck',
       benefits: ['Locks in hydration', 'Soothes sensitivity', 'Protects throughout the day'],
+      owned: true,
+      source: 'subscription',
     },
   ]
 }
@@ -239,18 +246,23 @@ export function getEveningRoutine(): RoutineStep[] {
       step: 1,
       advice: 'Warm between palms and massage into dry skin to dissolve makeup and impurities',
       benefits: ['Gentle makeup removal', 'Nourishes while cleansing', 'Maintains skin barrier'],
+      owned: true,
+      source: 'subscription',
     },
     {
       product: productData.find(p => p.slug === 'no-1-hydration')!,
       step: 2,
       advice: 'Mix 2-3 drops with your evening cream for boosted hydration',
       benefits: ['Intensifies moisture', 'Enhances cream effectiveness', 'Customizes your routine'],
+      owned: false,
     },
     {
       product: productData.find(p => p.slug === 'aloe-vera-base')!,
       step: 3,
       advice: 'Apply generously for overnight repair and regeneration',
       benefits: ['Night repair mode', 'Cellular regeneration', 'Wake up refreshed'],
+      owned: true,
+      source: 'order',
     },
   ]
 }
