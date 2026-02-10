@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { ChevronLeft } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -43,6 +44,14 @@ export default function ScanHistoryPage() {
 
   return (
     <div className="space-y-5">
+      <Link
+        href="/account"
+        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <ChevronLeft className="w-4 h-4" />
+        My Abbi
+      </Link>
+
       <SectionHeader
         title="Scan History"
         description="Track your skin health over time"
