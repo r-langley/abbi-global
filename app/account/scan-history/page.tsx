@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ChevronLeft, TrendingDown, TrendingUp, Minus } from "lucide-react"
+import { TrendingDown, TrendingUp, Minus } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -20,24 +20,16 @@ export default function ScanHistoryPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <Link
-          href="/account"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          My Abbi
-        </Link>
-        <SectionHeader
-          title="Scan History"
-          description="Track your skin health journey over time"
-          action={
-            <Button size="sm" className="font-mono text-xs" asChild>
-              <Link href="/skin-analysis">New Scan</Link>
-            </Button>
-          }
-        />
+    <div className="space-y-5">
+      <SectionHeader
+        title="Scan History"
+        description="Track your skin health journey over time"
+        action={
+          <Button size="sm" className="font-mono text-xs" asChild>
+            <Link href="/skin-analysis">New Scan</Link>
+          </Button>
+        }
+      />
       </div>
 
       <div className="space-y-4">

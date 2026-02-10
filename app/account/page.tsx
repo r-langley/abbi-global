@@ -5,9 +5,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { getMorningRoutine, getEveningRoutine, mockOrders, mockSubscriptions, mockPromotions } from "@/lib/account-data"
 import { productData } from "@/lib/product-data"
 import { SectionHeader } from "@/components/account/section-header"
@@ -25,10 +23,6 @@ export default function AccountPage() {
     morning: getMorningRoutine(),
     evening: getEveningRoutine(),
   }
-
-  // Mock user data
-  const isAmbassador = true
-  const viewingAsFamilyMember = null
 
   // Latest scan data
   const latestScan = {
@@ -76,99 +70,6 @@ export default function AccountPage() {
 
   return (
     <div className="space-y-5">
-      {/* Header Card with Account Info */}
-      <Card className="bg-muted/50">
-        <CardContent className="p-6">
-          <div className="flex justify-between gap-4 flex-col items-center">
-            <div className="flex items-center gap-4">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <button className="w-16 h-16 rounded-full bg-muted flex items-center justify-center hover:opacity-80 transition-opacity flex-shrink-0">
-                    <span className="text-2xl font-normal font-sans">SM</span>
-                  </button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Update Profile Photo</DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-4 py-4">
-                    <Button variant="outline" className="w-full font-mono text-xs bg-transparent">Take Selfie</Button>
-                    <Button variant="outline" className="w-full font-mono text-xs bg-transparent">Upload Photo</Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
-              <div>
-                <div className="flex items-center gap-2 flex-wrap mb-1">
-                  <h1 className="text-2xl font-normal tracking-tight">Sarah Miller</h1>
-                  {isAmbassador && <Badge className="bg-primary text-primary-foreground text-xs">Ambassador</Badge>}
-                </div>
-                <div className="flex items-center gap-2 flex-wrap text-sm text-muted-foreground">
-                  <span>32, Female</span>
-                </div>
-                {viewingAsFamilyMember && (
-                  <Badge variant="secondary" className="text-xs mt-1">Viewing as {viewingAsFamilyMember}</Badge>
-                )}
-              </div>
-            </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
-              {isAmbassador && (
-                <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent gap-1.5" asChild>
-                  <Link href="/ambassador-dashboard">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                    Dashboard
-                  </Link>
-                </Button>
-              )}
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="outline" size="sm" className="font-mono text-xs bg-transparent gap-1.5">
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                    </svg>
-                    Edit
-                  </Button>
-                </SheetTrigger>
-                <SheetContent>
-                  <SheetHeader>
-                    <SheetTitle>Edit Account Details</SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-8 space-y-4">
-                    <div>
-                      <label className="text-sm font-medium mb-2 block">Name</label>
-                      <input className="w-full px-3 py-2 rounded-md border bg-background" defaultValue="Sarah Miller" />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium mb-2 block">Email</label>
-                      <input className="w-full px-3 py-2 rounded-md border bg-background" defaultValue="sarah.miller@example.com" />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium mb-2 block">Age</label>
-                      <input className="w-full px-3 py-2 rounded-md border bg-background" defaultValue="32" />
-                    </div>
-                    <Button className="w-full font-mono text-xs">Save Changes</Button>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Tabs Container */}
-      <Tabs defaultValue="my-abbi" className="w-full">
-        <div className="flex justify-center mb-8">
-          <TabsList>
-            <TabsTrigger value="my-abbi">My Abbi</TabsTrigger>
-            <TabsTrigger value="orders">Orders</TabsTrigger>
-            <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
-            <TabsTrigger value="rewards">Rewards</TabsTrigger>
-          </TabsList>
-        </div>
-
-        {/* My Abbi Tab Content */}
-        <TabsContent value="my-abbi" className="space-y-5">
           {/* Scan Reminder Alert */}
           {scanReminderActive && (
             <Card className="border-primary/30 bg-primary/5">
@@ -499,8 +400,6 @@ export default function AccountPage() {
               </CardContent>
             </Card>
           </section>
-        </TabsContent>
-      </Tabs>
     </div>
   )
 }
