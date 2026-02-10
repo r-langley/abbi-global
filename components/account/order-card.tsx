@@ -52,7 +52,7 @@ export function OrderCard({
           <div className="mb-4">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <p className="text-sm font-medium">{orderNumber}</p>
+                <p className="text-lg font-normal">{orderNumber}</p>
                 {date && <p className="text-xs text-muted-foreground">{date}</p>}
               </div>
               <Badge variant={statusVariant} className={statusVariant === "outline" ? "text-muted-foreground" : ""}>
