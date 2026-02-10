@@ -125,12 +125,12 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
         <div className="flex items-start justify-between mb-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-normal tracking-tight">Subscription #{subscription.contractId}</h1>
+              <h1 className="text-lg font-normal">Subscription #{subscription.contractId}</h1>
               <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
                 {subscription.status}
               </Badge>
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs text-muted-foreground">
               Started {subscription.date} &middot; Next order {subscription.nextBillingDate}
             </p>
           </div>
@@ -147,7 +147,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="h-4 w-4 text-primary" />
-              <span className="text-sm font-medium">New recommendation from your latest scan</span>
+              <span className="text-sm">New recommendation from your latest scan</span>
             </div>
             <p className="text-xs text-muted-foreground mb-3">{scanRecommendation.reason}</p>
             <div className="flex items-center justify-between gap-4 p-3 bg-muted rounded-lg">
@@ -179,7 +179,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
           <Card>
             <CardHeader><CardTitle className="text-sm font-medium">Customer</CardTitle></CardHeader>
             <CardContent className="space-y-3">
-              <p className="text-sm font-medium">{subscription.customer.name}</p>
+              <p className="text-sm">{subscription.customer.name}</p>
               <div>
                 <p className="text-xs text-muted-foreground mb-0.5">Contact</p>
                 <p className="text-sm">{subscription.customer.email}</p>
@@ -202,7 +202,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
           <Card>
             <CardHeader><CardTitle className="text-sm font-medium">Next Order</CardTitle></CardHeader>
             <CardContent className="space-y-3">
-              <p className="text-sm font-medium">{subscription.nextBillingDate}</p>
+              <p className="text-sm">{subscription.nextBillingDate}</p>
               <p className="text-xs text-muted-foreground">{subscription.deliveryFrequency}</p>
               <Button variant="outline" size="sm" className="w-full bg-transparent text-xs">Change Date</Button>
             </CardContent>
@@ -231,7 +231,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
               <div className="flex items-start justify-between">
                 <div>
                   <CardTitle className="text-sm font-medium">Products in this subscription</CardTitle>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <p className="text-xs text-muted-foreground">
                     {subscriptionProducts.length} items &middot; {subscription.deliveryFrequency}
                   </p>
                 </div>
@@ -249,10 +249,10 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between items-start gap-2">
                       <div className="min-w-0">
-                        <p className="font-medium text-sm truncate">{product.name}</p>
+                        <p className="text-sm truncate">{product.name}</p>
                         <p className="text-xs text-muted-foreground capitalize">{product.category.replace("-", " ")}</p>
                       </div>
-                      <p className="text-sm font-medium whitespace-nowrap">
+                      <p className="text-sm whitespace-nowrap">
                         ${(product.price * product.quantity).toFixed(2)}
                       </p>
                     </div>
@@ -294,7 +294,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-start gap-2">
                         <div className="min-w-0">
-                          <p className="font-medium text-sm truncate">{scanRecommendation.product.name}</p>
+                          <p className="text-sm truncate">{scanRecommendation.product.name}</p>
                           <p className="text-xs text-muted-foreground">Based on your latest scan</p>
                           {scanRecommendation.product.traits && (
                             <div className="flex gap-1 mt-1">
@@ -307,7 +307,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
                           )}
                         </div>
                         <div className="flex flex-col items-end gap-2">
-                          <p className="text-sm font-medium">${scanRecommendation.product.price.toFixed(2)}</p>
+                          <p className="text-sm">${scanRecommendation.product.price.toFixed(2)}</p>
                           <Button size="sm" variant="outline" className="text-xs h-7 px-3 font-mono">Add</Button>
                         </div>
                       </div>
@@ -322,23 +322,23 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
           <Card>
             <CardHeader><CardTitle className="text-sm font-medium">Order Summary</CardTitle></CardHeader>
             <CardContent className="space-y-3">
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Subtotal ({subscriptionProducts.reduce((sum, p) => sum + p.quantity, 0)} items)</span>
                 <span>${subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-sm text-green-600">
+              <div className="flex justify-between text-xs text-primary">
                 <span>{subscription.discount}</span>
                 <span>-${discountAmount.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Shipping</span>
                 <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
               </div>
-              <div className="flex justify-between text-sm">
+              <div className="flex justify-between text-xs text-muted-foreground">
                 <span>Tax</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between font-medium pt-3 border-t">
+              <div className="flex justify-between text-sm font-medium pt-3 border-t">
                 <span>Total per order</span>
                 <span>${total.toFixed(2)}</span>
               </div>

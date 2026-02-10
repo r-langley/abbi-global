@@ -77,8 +77,8 @@ export function TopSkinTraits({ traits, scanDate, compact = false }: TopSkinTrai
             {traits.map((trait, i) => (
               <div key={i}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium">{trait.name}</span>
-                  <span className="text-sm font-mono">{trait.score}</span>
+                  <span className="text-sm">{trait.name}</span>
+                  <span className="text-xs font-mono text-muted-foreground">{trait.score}</span>
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed mb-2">{trait.description}</p>
                 <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">

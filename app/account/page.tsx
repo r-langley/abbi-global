@@ -69,9 +69,9 @@ export default function AccountPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
                   <div className="flex-1">
-                    <p className="text-sm font-medium mb-1">Time for your monthly scan</p>
+                    <p className="text-sm mb-1">Time for your monthly scan</p>
                     <p className="text-xs text-muted-foreground mb-3">
-                      Your subscription renews in {nextRenewal.daysUntil} days. Scan now to get personalized product recommendations.
+                      Subscription renews in {nextRenewal.daysUntil} days. Scan to update your recommendations.
                     </p>
                     <Button size="sm" variant="default" className="font-mono text-xs" asChild>
                       <Link href="/skin-analysis">Start Scan</Link>
@@ -92,7 +92,7 @@ export default function AccountPage() {
                     <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
-                    <p className="text-sm text-muted-foreground">My Skin</p>
+                    <p className="text-xs text-muted-foreground">My Skin</p>
                   </div>
                   <Link href="/account/scan-history">
                     <svg className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +117,7 @@ export default function AccountPage() {
                     <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                     </svg>
-                    <p className="text-sm text-muted-foreground">Orders</p>
+                    <p className="text-xs text-muted-foreground">Orders</p>
                   </div>
                   <Link href="/account/orders">
                     <svg className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -132,7 +132,7 @@ export default function AccountPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-base font-normal">{latestOrder.orderNumber}</span>
+                        <span className="text-sm">{latestOrder.orderNumber}</span>
                         <Badge variant={latestOrder.statusVariant} className="text-xs">{latestOrder.status}</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground">{latestOrder.date}</p>
@@ -155,7 +155,7 @@ export default function AccountPage() {
                       <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                       </svg>
-                      <p className="text-sm text-muted-foreground">Subscriptions</p>
+                      <p className="text-xs text-muted-foreground">Subscriptions</p>
                     </div>
                     <svg className="w-4 h-4 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -163,7 +163,7 @@ export default function AccountPage() {
                   </div>
                   <div className="flex flex-col flex-1 justify-center gap-3">
                     <div>
-                      <p className="text-base font-normal mb-1">Renews {nextRenewal.date}</p>
+                      <p className="text-sm mb-1">Renews {nextRenewal.date}</p>
                       <p className="text-xs text-muted-foreground">{nextRenewal.daysUntil} days away</p>
                     </div>
                     <div className="flex items-center gap-1.5">
@@ -203,7 +203,7 @@ export default function AccountPage() {
                   <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                   </svg>
-                  <h3 className="text-lg font-normal">Morning</h3>
+                  <h3 className="text-sm font-medium">Morning</h3>
                 </div>
                 <div className="space-y-3">
                   {routineProducts.morning.map((item) => (
@@ -257,7 +257,7 @@ export default function AccountPage() {
                   <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                   </svg>
-                  <h3 className="text-lg font-normal">Evening</h3>
+                  <h3 className="text-sm font-medium">Evening</h3>
                 </div>
                 <div className="space-y-3">
                   {routineProducts.evening.map((item) => (
@@ -319,7 +319,7 @@ export default function AccountPage() {
 
           {/* Promotions */}
           <section>
-            <h3 className="text-lg font-normal mb-4">Current Promotions</h3>
+            <h3 className="text-sm font-medium mb-4">Current Promotions</h3>
             <div className="grid md:grid-cols-2 gap-4">
               {mockPromotions.map((promo) => (
                 <Card key={promo.id}>
@@ -329,7 +329,7 @@ export default function AccountPage() {
                     >
                       {promo.status === "active" ? "Active" : promo.status === "upcoming" ? "Upcoming" : "Expired"}
                     </Badge>
-                    <h3 className="text-lg font-normal mb-1 mt-3">{promo.title}</h3>
+                    <h3 className="text-sm mt-3 mb-1">{promo.title}</h3>
                     {promo.expiryDate && (
                       <p className="text-xs text-muted-foreground mb-3">Expires {promo.expiryDate}</p>
                     )}
@@ -347,7 +347,7 @@ export default function AccountPage() {
 
           {/* Favorites */}
           <section>
-            <h3 className="text-lg font-normal mb-4">My Favorite Products</h3>
+            <h3 className="text-sm font-medium mb-4">My Favorite Products</h3>
             <Card>
               <CardContent className="p-5">
                 <p className="text-sm text-muted-foreground">Your saved favorites will appear here. Browse the shop to add products to your favorites.</p>
@@ -359,8 +359,8 @@ export default function AccountPage() {
           <section>
             <Card>
               <CardContent className="p-6 text-center">
-                <h2 className="text-xl font-normal mb-2">ABBI Product Catalog 2024</h2>
-                <p className="text-sm text-muted-foreground mb-4">
+                <h2 className="text-lg font-normal mb-2">ABBI Product Catalog 2024</h2>
+                <p className="text-xs text-muted-foreground mb-4">
                   Browse our complete collection of personalized skincare solutions
                 </p>
               </CardContent>

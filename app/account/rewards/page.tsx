@@ -12,7 +12,7 @@ export default function RewardsPage() {
 
       {/* Promotions */}
       <section>
-        <h3 className="text-lg font-normal mb-4">Current Promotions</h3>
+        <h3 className="text-sm font-medium mb-4">Current Promotions</h3>
         <div className="grid md:grid-cols-2 gap-4">
           {mockPromotions.map((promo) => (
             <Card key={promo.id}>
@@ -22,7 +22,7 @@ export default function RewardsPage() {
                 >
                   {promo.status === "active" ? "Active" : promo.status === "upcoming" ? "Upcoming" : "Expired"}
                 </Badge>
-                <h3 className="text-lg font-normal mb-1 mt-3">{promo.title}</h3>
+                <h3 className="text-sm mt-3 mb-1">{promo.title}</h3>
                 {promo.expiryDate && (
                   <p className="text-xs text-muted-foreground mb-3">Expires {promo.expiryDate}</p>
                 )}
@@ -40,7 +40,7 @@ export default function RewardsPage() {
 
       {/* Favorites */}
       <section>
-        <h3 className="text-lg font-normal mb-4">My Favorite Products</h3>
+        <h3 className="text-sm font-medium mb-4">My Favorite Products</h3>
         <Card>
           <CardContent className="p-5">
             <p className="text-sm text-muted-foreground">Your saved favorites will appear here. Browse the shop to add products to your favorites.</p>
@@ -52,8 +52,8 @@ export default function RewardsPage() {
       <section>
         <Card>
           <CardContent className="p-6 text-center">
-            <h2 className="text-xl font-normal mb-2">ABBI Product Catalog 2024</h2>
-            <p className="text-sm text-muted-foreground mb-4">
+            <h2 className="text-lg font-normal mb-2">ABBI Product Catalog 2024</h2>
+            <p className="text-xs text-muted-foreground mb-4">
               Browse our complete collection of personalized skincare solutions
             </p>
           </CardContent>

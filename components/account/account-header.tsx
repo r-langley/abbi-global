@@ -15,13 +15,13 @@ export function AccountHeader() {
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-normal">Sarah Miller</h1>
+              <h1 className="text-lg font-normal">Sarah Miller</h1>
               {isAmbassador && (
                 <Badge variant="secondary" className="text-xs">Ambassador</Badge>
               )}
             </div>
-            <p className="text-sm text-muted-foreground mb-1">sarah.miller@example.com</p>
-            <p className="text-sm text-muted-foreground">Member since Dec 2023</p>
+            <p className="text-xs text-muted-foreground mb-0.5">sarah.miller@example.com</p>
+            <p className="text-xs text-muted-foreground">Member since Dec 2023</p>
             {viewingAsFamilyMember && (
               <Badge variant="secondary" className="text-xs mt-1">Viewing as {viewingAsFamilyMember}</Badge>
             )}
@@ -44,15 +44,15 @@ export function AccountHeader() {
                 </SheetHeader>
                 <div className="mt-8 space-y-4">
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Name</label>
+                    <label className="text-xs text-muted-foreground mb-1.5 block">Name</label>
                     <input className="w-full px-3 py-2 rounded-md border bg-background" defaultValue="Sarah Miller" />
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Email</label>
+                    <label className="text-xs text-muted-foreground mb-1.5 block">Email</label>
                     <input className="w-full px-3 py-2 rounded-md border bg-background" defaultValue="sarah.miller@example.com" />
                   </div>
                   <div>
-                    <label className="text-sm font-medium mb-2 block">Age</label>
+                    <label className="text-xs text-muted-foreground mb-1.5 block">Age</label>
                     <input className="w-full px-3 py-2 rounded-md border bg-background" defaultValue="32" />
                   </div>
                   <Button className="w-full font-mono text-xs">Save Changes</Button>

@@ -79,7 +79,7 @@ export default function ScanHistoryPage() {
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div>
-                      <p className="text-base font-medium">{scan.date}</p>
+                      <p className="text-sm font-medium">{scan.date}</p>
                       <p className="text-xs text-muted-foreground">Age {scan.age}</p>
                     </div>
                     <svg
@@ -103,7 +103,7 @@ export default function ScanHistoryPage() {
                   <div className="mt-6 pt-5 border-t space-y-6">
                     {/* All traits */}
                     <div className="space-y-4">
-                      <p className="text-sm font-medium">All Traits</p>
+                      <p className="text-xs font-medium text-muted-foreground">All Traits</p>
                       <div className="grid gap-3">
                         {allTraits.map((trait, i) => {
                           const prevMetric = previousScan?.metrics.find(m => m.name === trait.name)
@@ -137,7 +137,7 @@ export default function ScanHistoryPage() {
                     {/* Recommendations */}
                     {scan.recommendations.length > 0 && (
                       <div className="space-y-3">
-                        <p className="text-sm font-medium">Recommended Products</p>
+                        <p className="text-xs font-medium text-muted-foreground">Recommended Products</p>
                         <div className="space-y-2">
                           {scan.recommendations.map((product, idx) => (
                             <div key={idx} className="flex items-center justify-between py-2">

@@ -8,6 +8,12 @@ interface SectionHeaderProps {
 
 export function SectionHeader({ title, action, description }: SectionHeaderProps) {
   return (
-    null
+    <div className="flex items-center justify-between">
+      <div>
+        <h2 className="text-lg font-normal">{title}</h2>
+        {description && <p className="text-xs text-muted-foreground mt-0.5">{description}</p>}
+      </div>
+      {action}
+    </div>
   )
 }

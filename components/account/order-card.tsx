@@ -52,14 +52,14 @@ export function OrderCard({
           <div className="mb-4">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <p className="text-2xl font-normal">{orderNumber}</p>
-                {date && <p className="text-sm text-muted-foreground">{date}</p>}
+                <p className="text-sm font-medium">{orderNumber}</p>
+                {date && <p className="text-xs text-muted-foreground">{date}</p>}
               </div>
               <Badge variant={statusVariant} className={statusVariant === "outline" ? "text-muted-foreground" : ""}>
                 {status}
               </Badge>
             </div>
-            {message && <p className="text-sm text-muted-foreground mb-4">{message}</p>}
+            {message && <p className="text-xs text-muted-foreground mb-4">{message}</p>}
             {showProgress && progressStages && (
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
@@ -88,26 +88,26 @@ export function OrderCard({
           <div className="space-y-3">
             {items.map((item, index) => (
               <div key={index} className="flex gap-4">
-                <div className="w-20 h-20 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
+                <div className="w-14 h-14 bg-muted rounded-lg flex-shrink-0 relative overflow-hidden">
                   <Image src={item.image} alt={item.name} fill className="object-cover" />
                 </div>
                 <div className="flex-1">
                   <div className="flex justify-between items-start">
                     <div>
-                      <p className="font-normal mb-1">{item.name}</p>
+                      <p className="text-sm">{item.name}</p>
                       <p className="text-xs text-muted-foreground font-mono">Qty: {item.quantity}</p>
                     </div>
-                    <span className="text-sm font-medium">${item.price.toFixed(2)}</span>
+                    <span className="text-sm">${item.price.toFixed(2)}</span>
                   </div>
                 </div>
               </div>
             ))}
           </div>
           <div className="mt-4 pt-4 border-t flex justify-between items-center">
-            <span className="text-sm text-muted-foreground">
+            <span className="text-xs text-muted-foreground">
               Total ({items.length} {items.length === 1 ? "item" : "items"})
             </span>
-            <span className="text-lg font-medium">${total.toFixed(2)}</span>
+            <span className="text-sm font-medium">${total.toFixed(2)}</span>
           </div>
         </CardContent>
       </Card>

@@ -62,10 +62,10 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
           <div className="flex items-start justify-between mb-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl font-normal tracking-tight">Order {order.number}</h1>
+                <h1 className="text-lg font-normal">Order {order.number}</h1>
                 <Badge variant="outline" className="font-mono text-xs">{order.status}</Badge>
               </div>
-              <p className="text-sm text-muted-foreground flex items-center gap-2">
+              <p className="text-xs text-muted-foreground flex items-center gap-2">
                 <Package className="w-4 h-4" />
                 {order.date}
               </p>
@@ -90,23 +90,23 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
         {/* Left Column */}
         <div className="space-y-6">
           <Card>
-            <CardHeader><CardTitle className="text-lg font-medium">Customer</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-sm font-medium">Customer</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               <div>
-                <p className="font-medium">{order.customer.name}</p>
-                <p className="text-sm text-muted-foreground">Age: {order.customer.age}</p>
+                <p className="text-sm">{order.customer.name}</p>
+                <p className="text-xs text-muted-foreground">Age: {order.customer.age}</p>
               </div>
-              <div className="space-y-1 text-sm">
-                <p className="text-muted-foreground">{order.customer.email}</p>
-                <p className="text-muted-foreground">{order.customer.phone}</p>
+              <div className="space-y-1 text-xs text-muted-foreground">
+                <p>{order.customer.email}</p>
+                <p>{order.customer.phone}</p>
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader><CardTitle className="text-lg font-medium">Shipping Address</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-sm font-medium">Shipping Address</CardTitle></CardHeader>
             <CardContent className="space-y-3">
-              <div className="text-sm">
+              <div className="text-xs text-muted-foreground">
                 <p>{order.shipping.address}</p>
                 <p>{order.shipping.city}, {order.shipping.state} {order.shipping.zip}</p>
                 <p>{order.shipping.country}</p>
@@ -124,7 +124,7 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
         {/* Right Column */}
         <div className="lg:col-span-2 space-y-6">
           <Card>
-            <CardHeader><CardTitle className="text-lg font-medium">Order Items</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-sm font-medium">Order Items</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {order.items.map((item, index) => (
                 <div key={index} className="flex gap-4 p-3 bg-muted rounded-lg">
@@ -133,11 +133,11 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
                   </div>
                   <div className="flex-1 flex items-center justify-between">
                     <div>
-                      <p className="font-medium">{item.name}</p>
+                      <p className="text-sm">{item.name}</p>
                       <p className="text-xs text-muted-foreground font-mono">SKU: {item.sku}</p>
                       <p className="text-xs text-muted-foreground">Qty: {item.quantity}</p>
                     </div>
-                    <p className="font-medium">${item.price.toFixed(2)}</p>
+                    <p className="text-sm">${item.price.toFixed(2)}</p>
                   </div>
                 </div>
               ))}
@@ -145,13 +145,13 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
           </Card>
 
           <Card>
-            <CardHeader><CardTitle className="text-lg font-medium">Skin Analysis Results</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-sm font-medium">Skin Analysis Results</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               {Object.entries(order.skinAnalysis).map(([key, value]) => (
                 <div key={key}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm capitalize">{key}</span>
-                    <span className="text-sm font-mono font-medium">{value}</span>
+                    <span className="text-xs capitalize">{key}</span>
+                    <span className="text-xs font-mono text-muted-foreground">{value}</span>
                   </div>
                   <div className="h-2 bg-muted rounded-full overflow-hidden">
                     <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${value}%` }} />
@@ -163,7 +163,7 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-lg font-medium">Recommended Products</CardTitle>
+              <CardTitle className="text-sm font-medium">Recommended Products</CardTitle>
               <Button variant="outline" size="sm">Add All to Cart</Button>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -174,12 +174,12 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
                       <Package className="w-6 h-6 text-muted-foreground" />
                     </div>
                     <div>
-                      <p className="font-medium text-sm">{product.name}</p>
+                      <p className="text-sm">{product.name}</p>
                       <p className="text-xs text-muted-foreground font-mono">SKU: {product.sku}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <p className="font-medium">${product.price.toFixed(2)}</p>
+                    <p className="text-sm">${product.price.toFixed(2)}</p>
                     <Button size="sm" variant="ghost">+</Button>
                   </div>
                 </div>

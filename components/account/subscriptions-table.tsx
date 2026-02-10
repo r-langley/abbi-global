@@ -54,8 +54,8 @@ export function SubscriptionsTable({ subscriptions }: SubscriptionsTableProps) {
             <CardContent className="p-5">
               <div className="flex justify-between items-start mb-3">
                 <div>
-                  <p className="text-lg font-normal">{subscription.product}</p>
-                  <p className="text-sm text-muted-foreground">{subscription.deliveryFrequency}</p>
+                  <p className="text-sm font-medium">{subscription.product}</p>
+                  <p className="text-xs text-muted-foreground">{subscription.deliveryFrequency}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <Badge
