@@ -15,7 +15,7 @@ interface TopSkinTraitsProps {
 function TraitCircle({ trait, size = 48 }: { trait: SkinTrait; size?: number }) {
   return (
     <div className="flex flex-col items-center gap-1">
-      <span className="text-[10px] text-muted-foreground font-medium">{trait.name}</span>
+      <span className="text-muted-foreground font-medium text-sm">{trait.name}</span>
       <div className="relative" style={{ width: size, height: size }}>
         <svg className="-rotate-90" width={size} height={size} viewBox="0 0 36 36">
           <path
