@@ -49,17 +49,16 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <Link
-          href="/account/orders"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          Orders
-        </Link>
+    <div className="space-y-5">
+      <Link
+        href="/account/orders"
+        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <ChevronLeft className="w-4 h-4" />
+        Orders
+      </Link>
 
-        <div className="bg-background rounded-lg p-6 shadow-sm">
+      <div className="bg-background rounded-lg p-6 shadow-sm">
           <div className="flex items-start justify-between mb-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
@@ -188,7 +187,6 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
             </CardContent>
           </Card>
         </div>
-      </div>
     </div>
   )
 }

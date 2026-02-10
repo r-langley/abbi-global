@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Sparkles, Trash2 } from "lucide-react"
+import { ChevronLeft, Sparkles, Trash2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -112,6 +112,14 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
 
   return (
     <div className="space-y-5">
+      <Link
+        href="/account/subscriptions"
+        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <ChevronLeft className="w-4 h-4" />
+        Subscriptions
+      </Link>
+
       {/* Header */}
       <div className="bg-background rounded-lg p-6 shadow-sm">
         <div className="flex items-start justify-between mb-4">
