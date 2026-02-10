@@ -38,6 +38,86 @@ export const mockUserProfile: UserProfile = {
   shippingAddressSameAsHome: true,
 }
 
+// Rewards program data
+export interface RewardsTier {
+  month: number
+  discount: number
+  perks: string[]
+  nextTierMonth?: number
+}
+
+export interface RewardsProgress {
+  currentMonth: number
+  currentTier: RewardsTier
+  nextTier: RewardsTier | null
+  progress: number // 0-100
+  hasReceivedMist: boolean
+}
+
+export function getRewardsTier(month: number): RewardsTier {
+  if (month === 1) {
+    return {
+      month: 1,
+      discount: 10,
+      perks: ['10% off', 'Free shipping at $95'],
+      nextTierMonth: 2,
+    }
+  } else if (month === 2) {
+    return {
+      month: 2,
+      discount: 10,
+      perks: ['10% off', 'Free Grape Water Mist'],
+      nextTierMonth: 3,
+    }
+  } else if (month >= 3 && month <= 5) {
+    return {
+      month,
+      discount: 15,
+      perks: ['15% off'],
+      nextTierMonth: month < 5 ? undefined : 6,
+    }
+  } else if (month >= 6 && month < 9) {
+    return {
+      month,
+      discount: 20,
+      perks: ['20% off'],
+      nextTierMonth: 9,
+    }
+  } else {
+    return {
+      month,
+      discount: 20,
+      perks: ['20% off', 'Free shipping'],
+      nextTierMonth: undefined,
+    }
+  }
+}
+
+export function getRewardsProgress(): RewardsProgress {
+  const currentMonth = 4 // Mock: Customer is on month 4
+  const currentTier = getRewardsTier(currentMonth)
+  const nextTierMonth = currentMonth < 9 ? (currentMonth < 6 ? 6 : 9) : null
+  const nextTier = nextTierMonth ? getRewardsTier(nextTierMonth) : null
+  
+  // Calculate progress to next major tier (Month 6 or Month 9)
+  let progress = 0
+  if (currentMonth < 6) {
+    progress = ((currentMonth - 1) / 5) * 100 // Progress to month 6
+  } else if (currentMonth < 9) {
+    progress = ((currentMonth - 6) / 3) * 100 // Progress to month 9
+  } else {
+    progress = 100 // Max tier reached
+  }
+  
+  return {
+    currentMonth,
+    currentTier,
+    nextTier,
+    progress: Math.round(progress),
+    hasReceivedMist: currentMonth >= 2,
+  }
+}
+
 // Ambassador data
 export interface Ambassador {
   name: string
