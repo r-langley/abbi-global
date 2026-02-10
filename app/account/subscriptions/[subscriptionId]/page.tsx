@@ -236,7 +236,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
                   </p>
                 </div>
                 <Button variant="outline" size="sm" className="text-xs font-mono bg-transparent" asChild>
-                  <Link href={`/shop?subscription=${subscription.id}`}>Change Products</Link>
+                  <Link href={`/account/subscriptions/${subscription.id}/edit`}>Change Products</Link>
                 </Button>
               </div>
             </CardHeader>
