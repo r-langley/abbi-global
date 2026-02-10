@@ -30,7 +30,6 @@ export default function ScanHistoryPage() {
           </Button>
         }
       />
-      </div>
 
       <div className="space-y-4">
         {mockSkinScans.map((scan, scanIndex) => {
