@@ -315,26 +315,9 @@ export default function AccountPage() {
               </CardContent>
             </Card>
           </div>
-        </TabsContent>
 
-        {/* Orders Tab Content */}
-        <TabsContent value="orders" className="space-y-6">
-          <SectionHeader title="Orders" />
-          <div className="space-y-4">
-            {mockOrders.map((order) => (
-              <OrderCard key={order.orderId} {...order} />
-            ))}
-          </div>
-        </TabsContent>
-
-        {/* Subscriptions Tab Content */}
-        <TabsContent value="subscriptions" className="space-y-6">
-          <SectionHeader title="Subscriptions" />
-          <SubscriptionsTable subscriptions={mockSubscriptions} />
-        </TabsContent>
-
-        {/* Rewards Tab Content */}
-        <TabsContent value="rewards" className="space-y-8">
+          {/* Rewards Tab Content */}
+          <section className="space-y-8">
           <SectionHeader title="Rewards & Promotions" />
 
           {/* Promotions */}
@@ -386,6 +369,7 @@ export default function AccountPage() {
               </CardContent>
             </Card>
           </section>
+        </section>
     </div>
   )
 }
