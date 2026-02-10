@@ -83,7 +83,6 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
               )}
             </div>
           </div>
-        </div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
@@ -187,6 +186,7 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
             </CardContent>
           </Card>
         </div>
+      </div>
     </div>
   )
 }
