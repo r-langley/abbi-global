@@ -205,35 +205,45 @@ export default function AccountPage() {
                   </svg>
                   <h3 className="text-sm font-medium">Morning</h3>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {routineProducts.morning.map((item) => (
-                    <div key={item.step} className={`flex gap-3 p-3 rounded-lg ${item.owned ? "bg-muted/30" : "border border-dashed border-muted-foreground/20"}`}>
-                      <div className="relative w-12 h-12 bg-muted rounded-lg overflow-hidden flex-shrink-0">
+                    <div key={item.step} className={`flex gap-4 p-4 rounded-lg ${item.owned ? "bg-muted/30" : "border border-dashed border-muted-foreground/20"}`}>
+                      <div className="relative w-16 h-16 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                         <Image src={item.product.image || "/minimalist-cosmetic-pump-bottle-cream.jpg"} alt={item.product.name} fill className="object-cover" />
                         {item.owned && (
-                          <div className="absolute bottom-0 right-0 w-4 h-4 bg-primary rounded-tl-md flex items-center justify-center">
-                            <svg className="w-2.5 h-2.5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="absolute bottom-0 right-0 w-5 h-5 bg-primary rounded-tl-md flex items-center justify-center">
+                            <svg className="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                         )}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-1.5 mb-0.5">
-                              <span className="w-4 h-4 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[10px] flex-shrink-0">{item.step}</span>
-                              <h4 className="font-normal text-sm truncate">{item.product.name}</h4>
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs flex-shrink-0">{item.step}</span>
+                              <h4 className="text-sm font-medium">{item.product.name}</h4>
                             </div>
-                            <p className="text-xs text-muted-foreground line-clamp-1">{item.advice}</p>
                             {item.owned && item.source && (
-                              <span className="text-[10px] text-muted-foreground mt-0.5 inline-block">via {item.source}</span>
+                              <span className="text-[10px] text-muted-foreground">via {item.source}</span>
                             )}
                           </div>
                           {!item.owned && (
-                            <Button size="sm" variant="outline" className="text-xs h-7 px-2 flex-shrink-0 font-mono">Add</Button>
+                            <Button size="sm" variant="outline" className="text-xs h-8 px-3 flex-shrink-0 font-mono">Add</Button>
                           )}
                         </div>
+                        <p className="text-xs text-muted-foreground mb-2 leading-relaxed">{item.advice}</p>
+                        <ul className="space-y-1">
+                          {item.benefits.map((benefit, i) => (
+                            <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
+                              <svg className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span>{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   ))}
@@ -259,35 +269,45 @@ export default function AccountPage() {
                   </svg>
                   <h3 className="text-sm font-medium">Evening</h3>
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {routineProducts.evening.map((item) => (
-                    <div key={item.step} className={`flex gap-3 p-3 rounded-lg ${item.owned ? "bg-muted/30" : "border border-dashed border-muted-foreground/20"}`}>
-                      <div className="relative w-12 h-12 bg-muted rounded-lg overflow-hidden flex-shrink-0">
+                    <div key={item.step} className={`flex gap-4 p-4 rounded-lg ${item.owned ? "bg-muted/30" : "border border-dashed border-muted-foreground/20"}`}>
+                      <div className="relative w-16 h-16 bg-muted rounded-lg overflow-hidden flex-shrink-0">
                         <Image src={item.product.image || "/minimalist-cosmetic-pump-bottle-cream.jpg"} alt={item.product.name} fill className="object-cover" />
                         {item.owned && (
-                          <div className="absolute bottom-0 right-0 w-4 h-4 bg-primary rounded-tl-md flex items-center justify-center">
-                            <svg className="w-2.5 h-2.5 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="absolute bottom-0 right-0 w-5 h-5 bg-primary rounded-tl-md flex items-center justify-center">
+                            <svg className="w-3 h-3 text-primary-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                             </svg>
                           </div>
                         )}
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between gap-2">
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-1.5 mb-0.5">
-                              <span className="w-4 h-4 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[10px] flex-shrink-0">{item.step}</span>
-                              <h4 className="font-normal text-sm truncate">{item.product.name}</h4>
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between gap-3 mb-2">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="w-5 h-5 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-xs flex-shrink-0">{item.step}</span>
+                              <h4 className="text-sm font-medium">{item.product.name}</h4>
                             </div>
-                            <p className="text-xs text-muted-foreground line-clamp-1">{item.advice}</p>
                             {item.owned && item.source && (
-                              <span className="text-[10px] text-muted-foreground mt-0.5 inline-block">via {item.source}</span>
+                              <span className="text-[10px] text-muted-foreground">via {item.source}</span>
                             )}
                           </div>
                           {!item.owned && (
-                            <Button size="sm" variant="outline" className="text-xs h-7 px-2 flex-shrink-0 font-mono">Add</Button>
+                            <Button size="sm" variant="outline" className="text-xs h-8 px-3 flex-shrink-0 font-mono">Add</Button>
                           )}
                         </div>
+                        <p className="text-xs text-muted-foreground mb-2 leading-relaxed">{item.advice}</p>
+                        <ul className="space-y-1">
+                          {item.benefits.map((benefit, i) => (
+                            <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
+                              <svg className="w-3 h-3 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span>{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
                     </div>
                   ))}
