@@ -290,15 +290,18 @@ export interface SkinScan {
   recommendations: { name: string; price: number }[]
 }
 
-// Color mapping for trait visualization
+// Color mapping for trait visualization - uses brand chart tokens
 const traitColorMap: Record<string, string> = {
-  'Sensitivity': 'text-purple-500',
-  'Radiance': 'text-cyan-500',
-  'Hydration': 'text-orange-400',
-  'Regulation': 'text-purple-500',
-  'Wrinkles': 'text-amber-500',
-  'Tone': 'text-blue-400',
-  'Texture': 'text-teal-400',
+  'Sensitivity': 'text-chart-1',
+  'Radiance': 'text-chart-2',
+  'Hydration': 'text-chart-3',
+  'Regulation': 'text-chart-4',
+  'Wrinkles': 'text-chart-5',
+  'Spots & Acne': 'text-chart-1',
+  'Skin Texture': 'text-chart-2',
+  'Blemishes': 'text-chart-3',
+  'Tone': 'text-chart-4',
+  'Texture': 'text-chart-5',
 }
 
 const traitDescriptions: Record<string, string> = {
