@@ -28,7 +28,7 @@ export function AccountTabs() {
 
   return (
     <div className="mb-8 text-center">
-      <div className="text-muted-foreground inline-flex w-fit items-center justify-center p-[3px] bg-input h-10 rounded-2xl">
+      <div className="text-muted-foreground inline-flex w-fit items-center justify-center p-[3px] bg-input h-10 rounded-3xl px-1 py-1">
         {tabItems.map((item) => {
           const isActive =
             item.href === "/account"
