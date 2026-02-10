@@ -143,7 +143,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
 
       {/* Scan Recommendation Callout */}
       {!alreadyInSubscription && (
-        <Card className="border-primary/30">
+        <Card className="bg-recommendation border-primary/30">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-2">
               <Sparkles className="h-4 w-4 text-primary" />
@@ -282,7 +282,7 @@ export default function SubscriptionDetailsPage({ params }: { params: { subscrip
                     <Sparkles className="h-3.5 w-3.5 text-primary" />
                     <p className="text-xs font-medium text-primary">Recommended for your routine</p>
                   </div>
-                  <div className="flex gap-4 p-3 rounded-lg border border-dashed border-primary/20">
+                  <div className="flex gap-4 p-3 rounded-lg bg-recommendation border border-dashed border-primary/20">
                     <div className="w-14 h-14 bg-muted rounded flex-shrink-0 relative overflow-hidden">
                       <Image
                         src={scanRecommendation.product.image || DEFAULT_PRODUCT_IMAGE}

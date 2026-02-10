@@ -136,7 +136,7 @@ export default function ScanHistoryPage() {
 
                     {/* Recommendations */}
                     {scan.recommendations.length > 0 && (
-                      <div className="space-y-3">
+                      <div className="space-y-3 p-3 bg-recommendation rounded-lg">
                         <p className="text-xs font-medium text-muted-foreground">Recommended Products</p>
                         <div className="space-y-2">
                           {scan.recommendations.map((product, idx) => (

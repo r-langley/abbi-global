@@ -161,14 +161,14 @@ export default function OrderDetailsPage({ params }: { params: { orderId: string
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="bg-recommendation">
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle className="text-sm font-medium">Recommended Products</CardTitle>
               <Button variant="outline" size="sm">Add All to Cart</Button>
             </CardHeader>
             <CardContent className="space-y-3">
               {order.recommendations.map((product, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                <div key={index} className="flex items-center justify-between p-3 bg-background rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 bg-background rounded flex-shrink-0 flex items-center justify-center">
                       <Package className="w-6 h-6 text-muted-foreground" />
