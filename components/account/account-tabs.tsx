@@ -28,7 +28,7 @@ export function AccountTabs() {
 
   return (
     <div className="mb-8 text-center">
-      <div className="text-muted-foreground inline-flex h-9 w-fit items-center justify-center p-[3px] bg-input rounded-xl">
+      <div className="text-muted-foreground inline-flex w-fit items-center justify-center p-[3px] bg-input h-10 rounded-2xl">
         {tabItems.map((item) => {
           const isActive =
             item.href === "/account"
@@ -40,7 +40,7 @@ export function AccountTabs() {
               key={item.href}
               href={item.href}
               className={cn(
-                "inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border border-transparent px-3 py-1 whitespace-nowrap transition-[color,box-shadow] rounded-xl text-base font-normal",
+                "inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 border border-transparent px-3 py-1 whitespace-nowrap transition-[color,box-shadow] text-base font-normal rounded-2xl",
                 isActive
                   ? "bg-background text-foreground shadow-sm dark:border-input dark:bg-input/30"
                   : "text-foreground dark:text-muted-foreground hover:text-foreground"
