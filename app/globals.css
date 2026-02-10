@@ -43,6 +43,7 @@
   --shadow-spread: 0px;
   --shadow-opacity: 0.05;
   --shadow-color: #000000;
+  --recommendation: oklch(0.98 0.012 129.23); /* Subtle green tint for recommendations */
 }
 
 .dark {
@@ -84,6 +85,7 @@
   --shadow-spread: 0px;
   --shadow-opacity: 0.05;
   --shadow-color: #000000;
+  --recommendation: oklch(0.25 0.025 129.23); /* Subtle green tint for recommendations in dark mode */
 }
 
 @theme inline {
@@ -114,6 +116,7 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-recommendation: var(--recommendation);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);

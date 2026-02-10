@@ -38,6 +38,86 @@ export const mockUserProfile: UserProfile = {
   shippingAddressSameAsHome: true,
 }
 
+// Rewards program data
+export interface RewardsTier {
+  month: number
+  discount: number
+  perks: string[]
+  nextTierMonth?: number
+}
+
+export interface RewardsProgress {
+  currentMonth: number
+  currentTier: RewardsTier
+  nextTier: RewardsTier | null
+  progress: number // 0-100
+  hasReceivedMist: boolean
+}
+
+export function getRewardsTier(month: number): RewardsTier {
+  if (month === 1) {
+    return {
+      month: 1,
+      discount: 10,
+      perks: ['10% off', 'Free shipping at $95'],
+      nextTierMonth: 2,
+    }
+  } else if (month === 2) {
+    return {
+      month: 2,
+      discount: 10,
+      perks: ['10% off', 'Free Grape Water Mist'],
+      nextTierMonth: 3,
+    }
+  } else if (month >= 3 && month <= 5) {
+    return {
+      month,
+      discount: 15,
+      perks: ['15% off'],
+      nextTierMonth: month < 5 ? undefined : 6,
+    }
+  } else if (month >= 6 && month < 9) {
+    return {
+      month,
+      discount: 20,
+      perks: ['20% off'],
+      nextTierMonth: 9,
+    }
+  } else {
+    return {
+      month,
+      discount: 20,
+      perks: ['20% off', 'Free shipping'],
+      nextTierMonth: undefined,
+    }
+  }
+}
+
+export function getRewardsProgress(): RewardsProgress {
+  const currentMonth = 4 // Mock: Customer is on month 4
+  const currentTier = getRewardsTier(currentMonth)
+  const nextTierMonth = currentMonth < 9 ? (currentMonth < 6 ? 6 : 9) : null
+  const nextTier = nextTierMonth ? getRewardsTier(nextTierMonth) : null
+  
+  // Calculate progress to next major tier (Month 6 or Month 9)
+  let progress = 0
+  if (currentMonth < 6) {
+    progress = ((currentMonth - 1) / 5) * 100 // Progress to month 6
+  } else if (currentMonth < 9) {
+    progress = ((currentMonth - 6) / 3) * 100 // Progress to month 9
+  } else {
+    progress = 100 // Max tier reached
+  }
+  
+  return {
+    currentMonth,
+    currentTier,
+    nextTier,
+    progress: Math.round(progress),
+    hasReceivedMist: currentMonth >= 2,
+  }
+}
+
 // Ambassador data
 export interface Ambassador {
   name: string
@@ -162,19 +242,31 @@ export const mockSubscriptions: Subscription[] = [
   {
     id: '34489270599',
     contractId: '34489270599',
-    product: 'Custom Formula - Aloe Vera',
+    product: 'Morning Routine Bundle',
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
-    price: 89.0,
+    products: [
+      { name: 'Custom Formula - Aloe Vera', image: '/minimalist-cosmetic-pump-bottle-cream.jpg', price: 89.0 },
+      { name: 'No. 1 Hydration', image: '/minimalist-cosmetic-pump-bottle-cream.jpg', price: 22.0 },
+    ],
+    price: 111.0,
     deliveryFrequency: 'Every 30 days',
+    nextOrderDate: 'Mar 15, 2024',
     status: 'active',
+    hasNewRecommendation: true,
+    recommendedSwap: {
+      current: 'No. 1 Hydration',
+      suggested: 'Actif N\u00b020 - Regulation',
+      reason: 'Your latest scan shows Regulation (78) as your top concern',
+    },
   },
   {
     id: '34520858951',
     contractId: '34520858951',
-    product: 'No. 1 Hydration',
+    product: 'Soothing Revitalizing Oil',
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
     price: 22.0,
     deliveryFrequency: 'Every 45 days',
+    nextOrderDate: 'Mar 28, 2024',
     status: 'active',
   },
   {
@@ -184,6 +276,7 @@ export const mockSubscriptions: Subscription[] = [
     productImage: '/minimalist-cosmetic-pump-bottle-cream.jpg',
     price: 38.0,
     deliveryFrequency: 'Every 60 days',
+    nextOrderDate: 'Apr 10, 2024',
     status: 'active',
   },
 ]
@@ -194,6 +287,8 @@ export interface RoutineStep {
   step: number
   advice: string
   benefits: string[]
+  owned: boolean
+  source?: 'subscription' | 'order'
 }
 
 export function getMorningRoutine(): RoutineStep[] {
@@ -203,18 +298,23 @@ export function getMorningRoutine(): RoutineStep[] {
       step: 1,
       advice: 'Massage gently in circular motions for 60 seconds to activate the cleansing foam',
       benefits: ['Removes overnight impurities', 'Preps skin for product absorption', 'Balances skin pH'],
+      owned: false,
     },
     {
       product: productData.find(p => p.slug === 'hyaluronic-acid-plumping-serum')!,
       step: 2,
       advice: 'Apply 2-3 drops while skin is still damp for maximum absorption',
       benefits: ['Plumps fine lines', 'Provides 24-hour hydration', 'Creates moisture barrier'],
+      owned: true,
+      source: 'subscription',
     },
     {
       product: productData.find(p => p.slug === 'aloe-vera-base')!,
       step: 3,
       advice: 'Apply upward motions from center of face outward, including neck',
       benefits: ['Locks in hydration', 'Soothes sensitivity', 'Protects throughout the day'],
+      owned: true,
+      source: 'subscription',
     },
   ]
 }
@@ -226,18 +326,23 @@ export function getEveningRoutine(): RoutineStep[] {
       step: 1,
       advice: 'Warm between palms and massage into dry skin to dissolve makeup and impurities',
       benefits: ['Gentle makeup removal', 'Nourishes while cleansing', 'Maintains skin barrier'],
+      owned: true,
+      source: 'subscription',
     },
     {
       product: productData.find(p => p.slug === 'no-1-hydration')!,
       step: 2,
       advice: 'Mix 2-3 drops with your evening cream for boosted hydration',
       benefits: ['Intensifies moisture', 'Enhances cream effectiveness', 'Customizes your routine'],
+      owned: false,
     },
     {
       product: productData.find(p => p.slug === 'aloe-vera-base')!,
       step: 3,
       advice: 'Apply generously for overnight repair and regeneration',
       benefits: ['Night repair mode', 'Cellular regeneration', 'Wake up refreshed'],
+      owned: true,
+      source: 'order',
     },
   ]
 }
@@ -248,6 +353,13 @@ export interface SkinScanMetric {
   value: number
 }
 
+export interface SkinTrait {
+  name: string
+  score: number
+  description: string
+  color: string
+}
+
 export interface SkinScan {
   id: string
   date: string
@@ -256,6 +368,59 @@ export interface SkinScan {
   primaryConcern: string
   metrics: SkinScanMetric[]
   recommendations: { name: string; price: number }[]
+}
+
+// Color mapping for trait visualization - uses brand chart tokens
+const traitColorMap: Record<string, string> = {
+  'Sensitivity': 'text-chart-1',
+  'Radiance': 'text-chart-2',
+  'Hydration': 'text-chart-3',
+  'Regulation': 'text-chart-4',
+  'Wrinkles': 'text-chart-5',
+  'Spots & Acne': 'text-chart-1',
+  'Skin Texture': 'text-chart-2',
+  'Blemishes': 'text-chart-3',
+  'Tone': 'text-chart-4',
+  'Texture': 'text-chart-5',
+}
+
+const traitDescriptions: Record<string, string> = {
+  'Sensitivity': 'In the realm of skincare, sensitivity is a characteristic where the skin reacts swiftly to various stimuli, often leading to redness or irritation.',
+  'Radiance': 'Radiance is the quality of skin that shines brightly, often a sign of good health and proper hydration.',
+  'Hydration': 'Hydration refers to skin that is adequately moisturized, resulting in a smooth and plump look.',
+  'Regulation': 'Regulation measures the skin\'s ability to maintain balance and recover from environmental stressors.',
+  'Wrinkles': 'Wrinkles indicate signs of aging where skin tends to react with irritation and discomfort to environmental factors.',
+  'Tone': 'Tone reflects the evenness and consistency of skin color across different areas.',
+  'Texture': 'Texture describes the smoothness and surface quality of the skin.',
+}
+
+export function getTopSkinTraits(scan?: SkinScan): SkinTrait[] {
+  if (!scan) {
+    scan = mockSkinScans[0]
+  }
+  
+  // Sort metrics by value (lowest scores are "top concerns")
+  const sortedMetrics = [...scan.metrics].sort((a, b) => a.value - b.value)
+  
+  return sortedMetrics.slice(0, 3).map(metric => ({
+    name: metric.name,
+    score: metric.value,
+    description: traitDescriptions[metric.name] || 'A key factor in your skin health.',
+    color: traitColorMap[metric.name] || 'text-primary',
+  }))
+}
+
+export function getAllSkinTraits(scan?: SkinScan): SkinTrait[] {
+  if (!scan) {
+    scan = mockSkinScans[0]
+  }
+  
+  return scan.metrics.map(metric => ({
+    name: metric.name,
+    score: metric.value,
+    description: traitDescriptions[metric.name] || 'A key factor in your skin health.',
+    color: traitColorMap[metric.name] || 'text-primary',
+  }))
 }
 
 export const mockSkinScans: SkinScan[] = [
